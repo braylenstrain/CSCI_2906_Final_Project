@@ -9,14 +9,19 @@
  */
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Scene;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+import javafx.scene.text.*;
+import javafx.animation.*;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 
 public class Capstone extends Application{
 	int level = 1;
 	int lives = 3;
+	int introCount = 0;
+
 
 	public static void main(String[] args) {
 		launch(args);
@@ -39,19 +44,38 @@ public class Capstone extends Application{
 		primaryStage.show();
 		primaryStage.setResizable(false);
 		
-		//Create a game intro thread, then change the contents of introductionText periodically
-		new Thread( () -> {
-			try {
-				Thread.sleep(3000);
-				introductionText.setText("Do you think you can beat it?");
-				Thread.sleep(3000);
-				introductionText.setText("We will see.");
-				Thread.sleep(3000);
-				introductionText.setText("You have 3 lives to beat 3 levels.\nThere are 5 minigames per level.\nLose a minigame, lose a life.\nLose all your lives, game over.\n\nPress any key to continue...");
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		//Handler for changing introductionText
+		EventHandler<ActionEvent> introEventHandler = e -> {
+			switch(introCount) {
+			case 0: introductionText.setText("Do you think you can beat it?");
+					introCount = 1;
+					break;
+			case 1: introductionText.setText("We will see.");
+					introCount = 2;
+					break;
+			case 2: introductionText.setText("You have 3 lives to beat 3 levels.\nThere are 5 minigames per level.\nLose a minigame, lose a life.\nLose all your lives, game over.\n\nPress any key on the keyboard to continue...");
+					introCount = 3;
 			}
-		}).start();
+		};
+		
+		//Animation that changes introductionText contents
+		Timeline introAnimation = new Timeline(new KeyFrame(Duration.millis(3000), introEventHandler));
+		introAnimation.setCycleCount(3);
+		introAnimation.play();
+		
+		//Create a game intro thread, then change the contents of introductionText periodically
+//		new Thread( () -> {
+//			try {
+//				Thread.sleep(3000);
+//				introductionText.setText("Do you think you can beat it?");
+//				Thread.sleep(3000);
+//				introductionText.setText("We will see.");
+//				Thread.sleep(3000);
+//				introductionText.setText("You have 3 lives to beat 3 levels.\nThere are 5 minigames per level.\nLose a minigame, lose a life.\nLose all your lives, game over.\n\nPress any key to continue...");
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}).start();
 
 		//After the introduction, user presses a key to start the game.
 		scene.setOnKeyPressed(e -> {
@@ -59,9 +83,6 @@ public class Capstone extends Application{
 		});
 		
 		//Game plays until user beats level 3, or loses all lives
-		while (level < 4 && lives > 0) {
-			//TODO
-		}
 	}
 
 }
