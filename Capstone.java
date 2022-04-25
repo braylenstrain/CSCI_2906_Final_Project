@@ -1,7 +1,7 @@
 
 //TODO display the minigames (if it's level 1, display instructions first), have a countdown
 //TODO how to deal with losses in both minigames and overall. Need a restart option.
-//TODO final end game win
+//TODO final end game win "I never doubted you for a second"
 /*
  * Author: Braylen Strain
  * Date: TODO
@@ -53,9 +53,10 @@ public class Capstone extends Application{
 		primaryStage.show();
 		primaryStage.setResizable(false);
 
-		//Create a thread to introduce the game, changing the contents of introductionText periodically, then calling runTheGame()
+		//Create a thread to introduce the game, changing the contents of introductionText periodically, then calling runFirstMinigame()
 		new Thread(() -> {
 			try {
+				//TODO fix sleep numbers
 				Thread.sleep(000);
 				introductionText.setText("Do you think you can beat it?");
 				Thread.sleep(000);
@@ -64,12 +65,13 @@ public class Capstone extends Application{
 				introductionText.setText("You have 3 lives to beat 3 levels.\nThere are 5 minigames per level.\nLose a minigame, lose a life.\nLose all your lives, game over.");
 				Thread.sleep(000);
 				Platform.runLater(() -> pane.getChildren().clear());
-				Platform.runLater(() -> startTheGame(primaryStage));
+				Platform.runLater(() -> runFirstMinigame(primaryStage));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}).start();
 		
+		//After a minigame ends, btNextMinigame will be displayed. The user clicks it to move on.
 		btNextMinigame.setOnAction(e -> {
 			if (pane instanceof CirclesMinigame) {
 				runSecondMinigame(primaryStage);
@@ -77,30 +79,72 @@ public class Capstone extends Application{
 		});
 	}
 	
-	
-	
-	//Run the rest of the game after the intro
-	private void startTheGame(Stage primaryStage) {
-		//Run the first minigame
+	//Run the first minigame after the intro is done
+	private void runFirstMinigame(Stage primaryStage) {
 		pane = new CirclesMinigame(level);
 		Scene scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 		primaryStage.setScene(scene);
-		//TODO Measure if last minigame was won or lost based on lives remaining vs started, have an inbetween pane with text
 	}
 	
+	//Run the second minigame
 	private void runSecondMinigame(Stage primaryStage) {
-		if (preMinigameLives != lives) {
-			lostALife(primaryStage);
-			preMinigameLives = lives;
-		} else {
-			System.out.println("Won");
-		}
+		new Thread(() -> {
+			try {
+				if (preMinigameLives != lives) {
+					Platform.runLater(() -> lostALife(primaryStage));
+					preMinigameLives = lives;
+				} else {
+					Platform.runLater(() -> wonAMinigame(primaryStage));
+				}
+				Thread.sleep(3000);
+				Platform.runLater(() -> pane.getChildren().clear());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}).start();
 	}
 	
+	//Displayed if the user lost the last minigame
 	private void lostALife(Stage primaryStage) {
 		Text loseText = new Text("You lost a life.\nYou have " + lives + " remaining.");
 		loseText.setFont(Font.font(30));
 		pane = new StackPane(loseText);
+		Scene scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
+		primaryStage.setScene(scene);
+	}
+	
+	//Displayed if the user won the last minigame
+	private void wonAMinigame(Stage primaryStage) {
+		//Set a random text to be displayed
+		int randomText = (int)(Math.random() * 20);
+		Text winText = new Text();
+		winText.setFont(Font.font(25));
+		switch(randomText) {
+		case 0: winText.setText("Big whoop, you won one."); break;
+		case 1: winText.setText("Don't get cocky now."); break;
+		case 2: winText.setText("That one was easy."); break;
+		case 3: winText.setText("You actually think you can win?"); break;
+		case 4: winText.setText("Ugh, good job I guess."); break;
+		case 5: winText.setText("What, you want a medal or something?"); break;
+		case 6: winText.setText("You'll choke, I just know it."); break;
+		case 7: winText.setText("You're not as good as you think you are."); break;
+		case 8: winText.setText("I could have done that with me eyes closed."); break;
+		case 9: winText.setText("My grandma says you're trash."); break;
+		case 10: winText.setText("Beep Beep Boop, major loser detected."); break;
+		case 11: winText.setText("Why do you even try?"); break;
+		case 12: winText.setText("Your shoes are ugly."); break;
+		case 13: winText.setText("I don't have faith in you."); break;
+		case 14: winText.setText("Anyone could have beaten that one."); break;
+		case 15: winText.setText("I sense your confidence waining..."); break;
+		case 16: winText.setText("Give up."); break;
+		case 17: winText.setText("Whatever, it doesn't matter because you'll lose the next one."); break;
+		case 18: winText.setText(">:("); break;
+		case 19: winText.setText("Nice work!"); break;
+		default: winText.setText("ERROR");
+		}
+		
+		//Put text into StackPane and display
+		pane = new StackPane(winText);
 		Scene scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 		primaryStage.setScene(scene);
 	}
