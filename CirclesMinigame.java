@@ -1,10 +1,10 @@
-package application;
 
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.util.Duration;
 import javafx.animation.*;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
@@ -52,7 +52,7 @@ public class CirclesMinigame extends BorderPane {
 		new Thread(() -> {
 			try {
 				int lives = Capstone.getLives();
-				for (int i = 0; i < 5; i++) {
+				for (int i = 0; i < 10; i++) {
 					//Check to see if they've lost the minigame
 					if (Capstone.getLives() != lives) break;
 					
@@ -63,14 +63,32 @@ public class CirclesMinigame extends BorderPane {
 				
 				//Give last spawned circle time to shrink entirely, if needed (Time to shrink a circle - sleep time between each circle + a little extra)
 				Thread.sleep(1550);
+				
 				//Sometimes another circle will have spawned before lostALife() is called. In this case, set lives to correct amount.
 				if (Capstone.getLives() < lives - 1) Capstone.setLives(lives - 1);
+				//Display this text if user beats minigame
+				else if (Capstone.getLives() == lives) Platform.runLater(() -> setCenter(new Text("Alright fine, you got them all.")));
+				
+				//Add Button to go to next minigame
+				Platform.runLater(() -> {
+					setBottom(Capstone.btNextMinigame);
+					setAlignment(Capstone.btNextMinigame, Pos.CENTER_RIGHT);
+					setMargin(Capstone.btNextMinigame, new Insets(20));
+					});
 			} catch (InterruptedException e) {
 					e.printStackTrace();
 			}
 		}).start();
 	}
-
+	
+	private void level2() {
+		
+	}
+	
+	private void level3() {
+		
+	}
+	
 	//Creates a circle, sets setOnMouseClick action for circle, puts into pane, calls shrinkCircle in a TimeLine to shrink it
 	private void makeACircle() {
 		//Makes sure circles are spawned entirely in the pane
@@ -99,14 +117,6 @@ public class CirclesMinigame extends BorderPane {
 	
 	private void shrinkCircle(Circle circle) {
 		circle.setRadius(circle.getRadius() - 1);
-	}
-	
-	private void level2() {
-		
-	}
-	
-	private void level3() {
-		
 	}
 	
 	private void loseALife() {
