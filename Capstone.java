@@ -16,12 +16,12 @@ import javafx.scene.text.*;
 import javafx.scene.control.Button;
 
 public class Capstone extends Application{
-	private int level = 1;
-	private static int lives = 3;
-	private static int preMinigameLives = 3;
-	public static Button btNextMinigame = new Button("Next");
+	private int level = 1; //Current level the game is on
+	private static int lives = 3; //How many lives the user has remaining
+	private static int preMinigameLives = 3; //How many lives the user had before the current minigame started
+	public static Button btNextMinigame = new Button("Next"); //Used to move on after a minigame is over
 	private Pane pane;
-	private final int WINDOW_SIZE = 700;
+	private final int WINDOW_SIZE = 700; //Used to designate the size of the scenes
 
 	public static void main(String[] args) {
 		launch(args);
@@ -90,6 +90,7 @@ public class Capstone extends Application{
 	private void runSecondMinigame(Stage primaryStage) {
 		new Thread(() -> {
 			try {
+				//Display win/loss page after last minigame for 3 seconds
 				if (preMinigameLives != lives) {
 					Platform.runLater(() -> lostALife(primaryStage));
 					preMinigameLives = lives;
@@ -97,7 +98,13 @@ public class Capstone extends Application{
 					Platform.runLater(() -> wonAMinigame(primaryStage));
 				}
 				Thread.sleep(3000);
-				Platform.runLater(() -> pane.getChildren().clear());
+				
+				//Put second minigame into stage
+				Platform.runLater(() -> {
+					pane = new FastTapMinigame(level);
+					Scene scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
+					primaryStage.setScene(scene);
+				});
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
