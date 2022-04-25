@@ -25,7 +25,7 @@ public class CirclesMinigame extends BorderPane {
 		}
 	}
 	
-	//Starts level 1 version of Click the Circles minigame
+	//Starts level 1 version of Click The Circles minigame
 	private void level1() {
 		//Instructions explaining the minigame
 		Text instructions = new Text("The first minigame is Click The Circles. When the game starts, you will begin to see circles appear.\nYou must click the circles with your mouse before they shrink away entirely.\nWhen you are ready, click the button below.");
