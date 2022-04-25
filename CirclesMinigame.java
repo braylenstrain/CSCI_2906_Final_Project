@@ -52,7 +52,7 @@ public class CirclesMinigame extends BorderPane {
 		new Thread(() -> {
 			try {
 				int lives = Capstone.getLives();
-				for (int i = 0; i < 10; i++) {
+				for (int i = 0; i < 0; i++) { //TODO fix back to 10
 					//Check to see if they've lost the minigame
 					if (Capstone.getLives() != lives) break;
 					
