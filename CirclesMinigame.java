@@ -1,3 +1,4 @@
+package application;
 
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
@@ -33,7 +34,7 @@ public class CirclesMinigame extends BorderPane {
 
 		Button btStart = new Button("Let's Go!");//Button to start the game
 		
-		//Put instructions and btStart into this
+		//Set instructions and btStart into top and center
 		setTop(instructions);
 		BorderPane.setAlignment(instructions, Pos.CENTER);
 		setCenter(btStart);
@@ -115,10 +116,12 @@ public class CirclesMinigame extends BorderPane {
 		});
 	}
 	
+	//This method is called inside the animation to shrink a circle
 	private void shrinkCircle(Circle circle) {
 		circle.setRadius(circle.getRadius() - 1);
 	}
 	
+	//This is called if a circle shrinks all the way without being clicked
 	private void loseALife() {
 		new Thread(() -> {
 			Capstone.setLives(Capstone.getLives() - 1);
