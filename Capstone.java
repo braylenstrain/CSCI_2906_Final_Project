@@ -1,5 +1,5 @@
-
-//TODO display the minigames (if it's level 1, display instructions first), have a countdown
+package application;
+//TODO display the minigames (if it's level 1, display instructions first)
 //TODO how to deal with losses in both minigames and overall. Need a restart option.
 //TODO final end game win "I never doubted you for a second"
 /*
@@ -37,8 +37,10 @@ public class Capstone extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		btNextMinigame.setPrefSize(200, 100); //Make button bigger so it's more noticeable
+		//Make button bigger so it's more noticeable
+		btNextMinigame.setPrefSize(200, 100);
 		btNextMinigame.setFont(Font.font(40));
+		
 		pane = new StackPane(); //The pane that will show the introduction
 		Text introductionText = new Text("Welcome to my game."); //Introduction text explaining the game
 		
