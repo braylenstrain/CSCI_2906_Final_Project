@@ -16,12 +16,13 @@ import javafx.scene.text.*;
 import javafx.scene.control.Button;
 
 public class Capstone extends Application{
+	private Pane pane; //Each minigame pane will get set to this variable
+	private final int WINDOW_SIZE = 700; //Used to designate the size of the scenes
 	private int level = 1; //Current level the game is on
 	private static int lives = 3; //How many lives the user has remaining
 	private static int preMinigameLives = 3; //How many lives the user had before the current minigame started
 	public static Button btNextMinigame = new Button("Next"); //Used to move on after a minigame is over
-	private Pane pane;
-	private final int WINDOW_SIZE = 700; //Used to designate the size of the scenes
+	public static Scene scene; // Set as a public static data field so that I can register key events in the minigames
 
 	public static void main(String[] args) {
 		launch(args);
@@ -54,11 +55,20 @@ public class Capstone extends Application{
 		primaryStage.setTitle("Can You Beat My Game?");
 		primaryStage.show();
 		primaryStage.setResizable(false);
+		
+		//After a minigame ends, btNextMinigame will be displayed. The user clicks it to move on.
+		btNextMinigame.setOnAction(e -> {
+			if (pane instanceof CirclesMinigame) {
+				runSecondMinigame(primaryStage);
+			} else if (pane instanceof FastTapMinigame) {
+				runThirdMinigame(primaryStage);
+			}
+		});
 
 		//Create a thread to introduce the game, changing the contents of introductionText periodically, then calling runFirstMinigame()
 		new Thread(() -> {
 			try {
-				//TODO fix sleep numbers
+				//TODO fix sleep numbers 3000, 6000
 				Thread.sleep(000);
 				introductionText.setText("Do you think you can beat it?");
 				Thread.sleep(000);
@@ -72,19 +82,12 @@ public class Capstone extends Application{
 				e.printStackTrace();
 			}
 		}).start();
-		
-		//After a minigame ends, btNextMinigame will be displayed. The user clicks it to move on.
-		btNextMinigame.setOnAction(e -> {
-			if (pane instanceof CirclesMinigame) {
-				runSecondMinigame(primaryStage);
-			}
-		});
 	}
 	
 	//Run the first minigame after the intro is done
 	private void runFirstMinigame(Stage primaryStage) {
 		pane = new CirclesMinigame(level);
-		Scene scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
+		scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 		primaryStage.setScene(scene);
 	}
 	
@@ -99,12 +102,37 @@ public class Capstone extends Application{
 				} else {
 					Platform.runLater(() -> wonAMinigame(primaryStage));
 				}
-				Thread.sleep(3000);
+				Thread.sleep(000);//TODO put back to 3000
 				
 				//Put second minigame into stage
 				Platform.runLater(() -> {
 					pane = new FastTapMinigame(level);
-					Scene scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
+					scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
+					primaryStage.setScene(scene);
+				});
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}).start();
+	}
+	
+	//Run the third minigame
+	private void runThirdMinigame(Stage primaryStage) {
+		new Thread(() -> {
+			try {
+				//Display win/loss page after last minigame for 3 seconds
+				if (preMinigameLives != lives) {
+					Platform.runLater(() -> lostALife(primaryStage));
+					preMinigameLives = lives;
+				} else {
+					Platform.runLater(() -> wonAMinigame(primaryStage));
+				}
+				Thread.sleep(000);//TODO put back to 3000
+				
+				//Put second minigame into stage
+				Platform.runLater(() -> {
+					pane = new FastTapMinigame(level); //TODO change to third minigame
+					scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 					primaryStage.setScene(scene);
 				});
 			} catch (InterruptedException e) {
