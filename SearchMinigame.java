@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import javafx.scene.layout.*;
 import javafx.scene.image.*;
+import javafx.scene.text.Text;
 
-//TODO node mouse enter/leave, randomly choose node to find, difficulty increases by number of nodes and time
 public class SearchMinigame extends BorderPane {
 	private static final int PANE_SIZE = 700;
 	private List<ImageView> imageList = Arrays.asList(
@@ -40,20 +40,46 @@ public class SearchMinigame extends BorderPane {
 	}
 
 	//Put 8 pictures behind pane to search through
+	//TODO Add Timer and ability to lose
 	private void level1() {
-		for (int i = 0; i < 8; i++) {
+		//TODO Instructions and start button
+		int random = (int)(Math.random() * 8);
+		ImageView desiredImage = imageList.get(random);
+		//TODO how to copy desired image to it's own image and set to top of screen?
+		for (int i = 0; i < 8; i++) { //TODO how to make sure images don't overlap?
 			ImageView image = imageList.get(i);
 			image.setPreserveRatio(true);
-			image.setFitHeight(100);
-			image.setX((int)(Math.random() * (PANE_SIZE - 100)));
-			image.setY((int)(Math.random() * (PANE_SIZE - 200)));
+			image.setFitHeight(200);
+			image.setX((int)(Math.random() * (PANE_SIZE - 200)));//TODO How to calcualte center after image has been added to top?
+			image.setY((int)(Math.random() * (PANE_SIZE - 200)));//TODO same as above
+			image.setOpacity(0);
 			pane.getChildren().add(image);
+			
+			//Images are revealed when mouse is hovered over them
+			image.setOnMouseEntered(e -> {
+				image.setOpacity(1);
+			});
+			//Images disappear when mouse is no longer hovered over
+			image.setOnMouseExited(e -> {
+				image.setOpacity(0);
+			});
+			
+			//User wins if they click the correct image before timer hits 0
+			if (image == desiredImage) {
+				image.setOnMouseClicked(e -> {
+					image.setOnMouseEntered(null); //Image stays shown after it's been clicked
+					image.setOnMouseExited(null); //Same as above ^^^
+					setTop(new Text("You're a winner!"));
+					//TODO approriate top text and Next button on bottom
+				});
+			}
 		}
+		
 		setCenter(pane);
 	}
 	
 	private void level2() {
-		// TODO Auto-generated method stub
+		//TODO difficulty increases by number of nodes and time
 		
 	}
 	
