@@ -106,6 +106,7 @@ public class FastTapMinigame extends BorderPane {
 		});
 	}
 	
+	//Checks if currents taps has hit or passed numberOfTaps. If so, displays winText.
 	private void checkForWin(int numberOfTaps, Timeline countdownAnimation) {
 		if (currentTaps >= numberOfTaps) {
 			countdownAnimation.stop();
@@ -117,12 +118,14 @@ public class FastTapMinigame extends BorderPane {
 		}
 	}
 	
+	//Switches the key that needs to be tapped at specific intervals
 	private void keySwitch(int currentTime, int time) {
 		if (currentTime == 3 || currentTime == 6 || currentTime == 12 || currentTime == 16 || currentTime == 18) {
 			displayKey();
 		}
 	}
 	
+	//Displays the key that needs to be tapped
 	private void displayKey() {
 		StackPane keyPane = new StackPane();
 		Rectangle keyBorder = new Rectangle(150, 150, Color.WHITE);
