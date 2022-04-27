@@ -1,4 +1,3 @@
-package application;
 
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
@@ -88,11 +87,11 @@ public class CirclesMinigame extends BorderPane {
 	}
 	
 	private void level2() {
-		
+		//TODO
 	}
 	
 	private void level3() {
-		
+		//TODO
 	}
 	
 	//Creates a circle, sets setOnMouseClick action for circle, puts into pane, calls shrinkCircle in a TimeLine to shrink it

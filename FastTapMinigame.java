@@ -1,4 +1,3 @@
-package application;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -180,6 +179,6 @@ public class FastTapMinigame extends BorderPane {
 	}
 	
 	private void level3() {
-		
+		//TODO
 	}
 }

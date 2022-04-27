@@ -1,4 +1,3 @@
-package application;
 //TODO display the minigames (if it's level 1, display instructions first)
 //TODO how to deal with losses in both minigames and overall. Need a restart option.
 //TODO final end game win "I never doubted you for a second"
