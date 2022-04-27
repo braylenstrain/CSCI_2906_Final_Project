@@ -127,10 +127,9 @@ public class Capstone extends Application{
 					Platform.runLater(() -> wonAMinigame(primaryStage));
 				}
 				Thread.sleep(000);//TODO put back to 3000
-				
-				//Put second minigame into stage
+				//Put third minigame into stage
 				Platform.runLater(() -> {
-					pane = new FastTapMinigame(level); //TODO change to third minigame
+					pane = new SearchMinigame(level);
 					scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 					primaryStage.setScene(scene);
 				});
