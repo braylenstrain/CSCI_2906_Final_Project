@@ -32,7 +32,8 @@ public class CirclesMinigame extends BorderPane {
 		Text instructions = new Text("The first minigame is Click The Circles. When the game starts, you will begin to see circles appear.\nYou must click the circles with your mouse before they shrink away entirely.\nWhen you are ready, click the button below.");
 		instructions.setFont(Font.font(15));
 
-		Button btStart = new Button("Let's Go!");//Button to start the game
+		//Button to start the game
+		Button btStart = new Button("Let's Go!");
 		
 		//Set instructions and btStart into top and center
 		setTop(instructions);
@@ -43,7 +44,7 @@ public class CirclesMinigame extends BorderPane {
 		//Starts the minigame when btStart is clicked
 		btStart.setOnAction(e -> {
 			getChildren().clear();
-			this.setCenter(pane);
+			setCenter(pane);
 			playLevel1();
 		});
 	}
@@ -63,12 +64,16 @@ public class CirclesMinigame extends BorderPane {
 				}
 				
 				//Give last spawned circle time to shrink entirely, if needed (Time to shrink a circle - sleep time between each circle + a little extra)
-				Thread.sleep(1550);
+				Thread.sleep(0);//TODO Put back to 1550
 				
 				//Sometimes another circle will have spawned before lostALife() is called. In this case, set lives to correct amount.
 				if (Capstone.getLives() < lives - 1) Capstone.setLives(lives - 1);
 				//Display this text if user beats minigame
-				else if (Capstone.getLives() == lives) Platform.runLater(() -> setCenter(new Text("Alright fine, you got them all.")));
+				else if (Capstone.getLives() == lives) Platform.runLater(() -> {
+					Text winText = new Text("Yipee for you, you got them all.");
+					winText.setFont(Font.font(20));
+					setCenter(winText);
+				});
 				
 				//Add Button to go to next minigame
 				Platform.runLater(() -> {
@@ -126,8 +131,8 @@ public class CirclesMinigame extends BorderPane {
 		new Thread(() -> {
 			Capstone.setLives(Capstone.getLives() - 1);
 			Platform.runLater(() -> {
-				this.getChildren().clear();
-				this.setCenter(new Text("YOU DIED SUCKA!"));
+				getChildren().clear();
+				setCenter(new Text("YOU DIED SUCKA!"));
 			});
 		}).start();
 	}
