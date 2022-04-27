@@ -44,7 +44,7 @@ public class FastTapMinigame extends BorderPane {
 		//Starts the minigame when btStart is clicked
 		btStart.setOnAction(e -> {
 			getChildren().clear();
-			playGame(10, 30);
+			playGame(10, 0); //TODO change back to 30
 		});
 	}
 	
