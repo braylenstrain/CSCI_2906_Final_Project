@@ -25,7 +25,8 @@ public class SearchMinigame extends BorderPane {
 			new ImageView(new Image("images/388-3880363_captain-jack-sparrow-png-removebg-preview.png")),
 			new ImageView(new Image("images/8e6b064c27cdda51e81589dc11ac68bf-removebg-preview.png")),
 			new ImageView(new Image("images/Avatar_Aang.png")),
-			new ImageView(new Image("images/Master-Chief-Transparent-Background.png"))
+			new ImageView(new Image("images/Master-Chief-Transparent-Background.png")),
+			new ImageView(new Image("images/tumblr_orvfd8FdK51rxkqbso1_500.png"))
 			);
 	private Pane pane = new Pane();
 	
