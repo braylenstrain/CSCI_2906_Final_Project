@@ -1,10 +1,12 @@
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javafx.scene.layout.*;
 import javafx.scene.image.*;
 import javafx.scene.text.Text;
+import javafx.geometry.Point2D;
 
 public class SearchMinigame extends BorderPane {
 	private static final int PANE_SIZE = 700;
@@ -40,19 +42,26 @@ public class SearchMinigame extends BorderPane {
 	}
 
 	//Put 8 pictures behind pane to search through
-	//TODO Add Timer and ability to lose
+	//TODO Add Timer and ability to lose, write comments
+	//TODO Move everything into a single method with number of images and size of images parameters?
 	private void level1() {
 		//TODO Instructions and start button
 		int random = (int)(Math.random() * 8);
 		ImageView desiredImage = imageList.get(random);
 		//TODO how to copy desired image to it's own image and set to top of screen?
-		for (int i = 0; i < 8; i++) { //TODO how to make sure images don't overlap?
+		ArrayList<Point2D> imagePlacement = new ArrayList<>();
+		for (int i = 0; i < 8; i++) { //TODO how to make sure images don't overlap? Save center point in Array/List and have an if statement that says if the midpoint between both centers is too close...
 			ImageView image = imageList.get(i);
 			image.setPreserveRatio(true);
 			image.setFitHeight(200);
 			image.setX((int)(Math.random() * (PANE_SIZE - 200)));//TODO How to calcualte center after image has been added to top?
 			image.setY((int)(Math.random() * (PANE_SIZE - 200)));//TODO same as above
-			image.setOpacity(0);
+			for (Point2D point: imagePlacement) {
+				if (point.distance(image.getX(), image.getY()) < 200) {
+					placeImageElsewhere(image, imagePlacement);
+				}
+			}
+			image.setOpacity(1); //TODO Change back to 0
 			pane.getChildren().add(image);
 			
 			//Images are revealed when mouse is hovered over them
@@ -86,5 +95,9 @@ public class SearchMinigame extends BorderPane {
 	private void level3() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private void placeImageElsewhere(ImageView image, ArrayList<Point2D> imagePlacement) {
+		//While loop
 	}
 }
