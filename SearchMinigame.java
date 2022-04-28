@@ -43,45 +43,63 @@ public class SearchMinigame extends BorderPane {
 	}
 
 	//Put 8 pictures behind pane to search through
-	//TODO Add Timer and ability to lose, write comments
+	//TODO Add Timer and ability to lose(show where image was), write comments
 	//TODO Move everything into a single method with number of images and size of images parameters?
 	private void level1() {
 		//TODO Instructions and start button
-		int random = (int)(Math.random() * 8);
-		ImageView desiredImage = imageList.get(random);
-		//TODO how to copy desired image to it's own image and set to top of screen?
+		ImageView desiredImage = imageList.get(0); //TODO how to copy desired image to it's own image and set to top of screen?
 		ArrayList<Point2D> imagePlacement = new ArrayList<>();
 		for (int i = 0; i < 8; i++) { //TODO how to make sure images don't overlap? Save center point in Array/List and have an if statement that says if the midpoint between both centers is too close...
 			ImageView image = imageList.get(i);
+			
+			//Set size of image
 			image.setPreserveRatio(true);
 			image.setFitHeight(200);
+			
+			//Set coordinates of image
 			image.setX((int)(Math.random() * (PANE_SIZE - 200)));//TODO How to calcualte center after image has been added to top?
 			image.setY((int)(Math.random() * (PANE_SIZE - 200)));//TODO same as above
-			for (Point2D point: imagePlacement) {
-				if (point.distance(image.getX(), image.getY()) < 200) {
-					placeImageElsewhere(image, imagePlacement);
+			
+			//If image overlaps another image, find a different spot (100 tries)
+			boolean foundSpot = true;
+			for (int j = 0; j < 100; j++) {
+				foundSpot = true;
+				for (Point2D point: imagePlacement) {
+					if (point.distance(image.getX(), image.getY()) < 200 / 2) {
+						image.setX((int)(Math.random() * (PANE_SIZE - 200)));//TODO How to calcualte center after image has been added to top?
+						image.setY((int)(Math.random() * (PANE_SIZE - 200)));//TODO same as above
+						foundSpot = false;
+						break;
+					}
 				}
+				if (foundSpot) break;
 			}
-			image.setOpacity(1); //TODO Change back to 0
-			pane.getChildren().add(image);
-			
-			//Images are revealed when mouse is hovered over them
-			image.setOnMouseEntered(e -> {
-				image.setOpacity(1);
-			});
-			//Images disappear when mouse is no longer hovered over
-			image.setOnMouseExited(e -> {
-				image.setOpacity(0);
-			});
-			
-			//User wins if they click the correct image before timer hits 0
-			if (image == desiredImage) {
-				image.setOnMouseClicked(e -> {
-					image.setOnMouseEntered(null); //Image stays shown after it's been clicked
-					image.setOnMouseExited(null); //Same as above ^^^
-					setTop(new Text("You're a winner!"));
-					//TODO approriate top text and Next button on bottom
+			//If image doesn't overlap other images, add it to game
+			if (foundSpot) {
+				//Add image coordinates to imagePlacement, set Opacity to 0, and add it to pane
+				imagePlacement.add(new Point2D(image.getX(), image.getY()));
+				image.setOpacity(1); //TODO Change back to 0
+				pane.getChildren().add(image);
+				
+				//Images are revealed when mouse is hovered over them
+				image.setOnMouseEntered(e -> {
+					image.setOpacity(1);
 				});
+				
+				//Images disappear when mouse is no longer hovered over
+				image.setOnMouseExited(e -> {
+					image.setOpacity(1); //TODO change back to 0
+				});
+				
+				//User wins if they click the correct image before timer hits 0 (Correct image is first image in imageList after it's been shuffled)
+				if (i == 0) {
+					image.setOnMouseClicked(e -> {
+						image.setOnMouseEntered(null); //Image stays shown after it's been clicked
+						image.setOnMouseExited(null); //Same as above ^^^
+						setTop(new Text("You're a winner!"));
+						//TODO approriate top text and Next button on bottom
+					});
+				}
 			}
 		}
 		
@@ -98,7 +116,4 @@ public class SearchMinigame extends BorderPane {
 		
 	}
 	
-	private void placeImageElsewhere(ImageView image, ArrayList<Point2D> imagePlacement) {
-		//While loop
-	}
 }
