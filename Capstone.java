@@ -70,13 +70,13 @@ public class Capstone extends Application{
 		new Thread(() -> {
 			try {
 				//TODO fix sleep numbers 3000, 6000
-				Thread.sleep(000);
+				Thread.sleep(3000);
 				introductionText.setText("Do you think you can beat it?");
-				Thread.sleep(000);
+				Thread.sleep(3000);
 				introductionText.setText("We will see.");
-				Thread.sleep(000);
+				Thread.sleep(3000);
 				introductionText.setText("You have 3 lives to beat 3 levels.\nThere are 5 minigames per level.\nLose a minigame, lose a life.\nLose all your lives, game over.");
-				Thread.sleep(000);
+				Thread.sleep(6000);
 				Platform.runLater(() -> pane.getChildren().clear());
 				Platform.runLater(() -> runFirstMinigame(primaryStage));
 			} catch (InterruptedException e) {
@@ -88,7 +88,7 @@ public class Capstone extends Application{
 	//TODO Make sure after 5th minigame their is an endgame check
 	//Run the first minigame after the intro is done
 	private void runFirstMinigame(Stage primaryStage) {
-		pane = new SearchMinigame(level); //TODO change back to first minigame
+		pane = new CirclesMinigame(level); //TODO change back to first minigame
 		scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 		primaryStage.setScene(scene);
 	}
@@ -104,7 +104,7 @@ public class Capstone extends Application{
 				} else {
 					Platform.runLater(() -> wonAMinigame(primaryStage));
 				}
-				Thread.sleep(3000);
+				Thread.sleep(2000);
 				
 				//If user lost all lives, call endGame()
 				if (lives == 0) {
@@ -134,7 +134,7 @@ public class Capstone extends Application{
 				} else {
 					Platform.runLater(() -> wonAMinigame(primaryStage));
 				}
-				Thread.sleep(3000);
+				Thread.sleep(2000);
 				
 				//If user lost all lives, call endGame()
 				if (lives == 0) {
@@ -163,7 +163,7 @@ public class Capstone extends Application{
 				} else {
 					Platform.runLater(() -> wonAMinigame(primaryStage));
 				}
-				Thread.sleep(3000);
+				Thread.sleep(2000);
 				
 				//If user lost all lives, call endGame()
 				if (lives == 0) {
@@ -171,7 +171,7 @@ public class Capstone extends Application{
 				} else {
 					//Put next minigame into stage
 					Platform.runLater(() -> {
-						pane = new SearchMinigame(level); //TODO change
+						pane = new CirclesMinigame(level); //TODO change
 						scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 						primaryStage.setScene(scene);
 					});
