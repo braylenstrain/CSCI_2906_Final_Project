@@ -7,9 +7,13 @@ import javafx.scene.layout.*;
 import javafx.scene.image.*;
 import javafx.scene.text.Text;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 
 public class SearchMinigame extends BorderPane {
 	private static final int PANE_SIZE = 700;
+	private static final int GOAL_IMAGE_SIZE = 150;
+	private static final int SEARCH_IMAGE_SIZE = 200; //TODO Get rid of when parameters are create for runGame() method
+	private static final int NUMBER_OF_IMAGES = 8; //TODO Same as above^^^^
 	private List<ImageView> imageList = Arrays.asList(
 			new ImageView(new Image("images/2022_04_27_0m8_Kleki-removebg-preview.png")),
 			new ImageView(new Image("images/2022_04_27_0mb_Kleki-removebg-preview.png")),
@@ -32,7 +36,7 @@ public class SearchMinigame extends BorderPane {
 	
 	public SearchMinigame(int level) {
 		Collections.shuffle(imageList); //Shuffle imageList so each SearchMinigame has different images/image locations
-		pane.setStyle("-fx-backgorund-color: white");
+		pane.setStyle("-fx-background-color: white; -fx-border-style: solid;");
 		if (level == 1) {
 			level1();
 		} else if (level == 2) {
@@ -43,35 +47,45 @@ public class SearchMinigame extends BorderPane {
 	}
 
 	//Put 8 pictures behind pane to search through
-	//TODO Add Timer and ability to lose(show where image was), write comments
+	//TODO Add Timer and ability to lose(show where image was)
 	//TODO Move everything into a single method with number of images and size of images parameters?
 	private void level1() {
-		//TODO Instructions and start button
-		ImageView desiredImage = imageList.get(0); //TODO how to copy desired image to it's own image and set to top of screen?
+		//TODO Instructions and start button (Tips:Slow and steady wins the race, be precise especially with stickmen, check around/under legolas' bow)
+		
+		//At the top, show a copy of the goal image that the user is trying to find
+		Image glImg = imageList.get(0).getImage();
+		ImageView goalImage = new ImageView(glImg);
+		goalImage.setPreserveRatio(true);
+		goalImage.setFitHeight(GOAL_IMAGE_SIZE);
+		setTop(goalImage);
+		setAlignment(goalImage, Pos.CENTER);
+		
+		//Put the images into pane at random places
 		ArrayList<Point2D> imagePlacement = new ArrayList<>();
-		for (int i = 0; i < 8; i++) { //TODO how to make sure images don't overlap? Save center point in Array/List and have an if statement that says if the midpoint between both centers is too close...
+		for (int i = 0; i < NUMBER_OF_IMAGES; i++) { 
 			ImageView image = imageList.get(i);
 			
 			//Set size of image
 			image.setPreserveRatio(true);
-			image.setFitHeight(200);
+			image.setFitHeight(SEARCH_IMAGE_SIZE);
 			
 			//Set coordinates of image
-			image.setX((int)(Math.random() * (PANE_SIZE - 200)));//TODO How to calcualte center after image has been added to top?
-			image.setY((int)(Math.random() * (PANE_SIZE - 200)));//TODO same as above
+			findImageCoordinates(image);
 			
 			//If image overlaps another image, find a different spot (100 tries)
 			boolean foundSpot = true;
 			for (int j = 0; j < 100; j++) {
 				foundSpot = true;
 				for (Point2D point: imagePlacement) {
-					if (point.distance(image.getX(), image.getY()) < 200 / 2) {
-						image.setX((int)(Math.random() * (PANE_SIZE - 200)));//TODO How to calcualte center after image has been added to top?
-						image.setY((int)(Math.random() * (PANE_SIZE - 200)));//TODO same as above
+					//If distance between image midpoint and point midpoint is less than the height of the images / 1.5, set a new x and y for image's midpoint
+					if (point.distance(image.getX(), image.getY()) < SEARCH_IMAGE_SIZE / 1.5) {
+						findImageCoordinates(image);
 						foundSpot = false;
 						break;
 					}
 				}
+				
+				//If the midpoint did not have to be reset, end the loop
 				if (foundSpot) break;
 			}
 			//If image doesn't overlap other images, add it to game
@@ -112,8 +126,14 @@ public class SearchMinigame extends BorderPane {
 	}
 	
 	private void level3() {
-		// TODO Auto-generated method stub
+		// TODO Don't have stickmen be a choice for level 3?(Too small)
 		
+	}
+	
+	//Set coordinates of image
+	private void findImageCoordinates(ImageView image) {
+		image.setX(Math.random() * (PANE_SIZE - SEARCH_IMAGE_SIZE));
+		image.setY(Math.random() * (PANE_SIZE - SEARCH_IMAGE_SIZE - 150));
 	}
 	
 }
