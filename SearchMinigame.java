@@ -50,7 +50,6 @@ public class SearchMinigame extends BorderPane {
 	}
 
 	//Put 8 pictures behind pane to search through
-	//TODO Move everything into a single method with number of images and size of images parameters and timer length?
 	private void level1() {
 		//Instructions explaining the minigame
 		Text instructions = new Text("This minigame is Find The Hidden Image. At the top is the image you are looking for.\n"
