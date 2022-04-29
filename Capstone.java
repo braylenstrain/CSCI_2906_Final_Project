@@ -85,7 +85,7 @@ public class Capstone extends Application{
 	
 	//Run the first minigame after the intro is done
 	private void runFirstMinigame(Stage primaryStage) {
-		pane = new CirclesMinigame(level);
+		pane = new SearchMinigame(level); //TODO hange back to first minigame
 		scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 		primaryStage.setScene(scene);
 	}
