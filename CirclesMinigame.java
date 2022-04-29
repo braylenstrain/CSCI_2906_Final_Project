@@ -28,7 +28,9 @@ public class CirclesMinigame extends BorderPane {
 	//Starts level 1 version of Click The Circles minigame
 	private void level1() {
 		//Instructions explaining the minigame
-		Text instructions = new Text("The first minigame is Click The Circles. When the game starts, you will begin to see circles appear.\nYou must click the circles with your mouse before they shrink away entirely.\nWhen you are ready, click the button below.");
+		Text instructions = new Text("The first minigame is Click The Circles. When the game starts, you will begin to see circles appear.\n"
+				+ "You must click the circles with your mouse before they shrink away entirely.\n"
+				+ "When you are ready, click the button below.");
 		instructions.setFont(Font.font(15));
 
 		//Button to start the game
@@ -53,7 +55,7 @@ public class CirclesMinigame extends BorderPane {
 		new Thread(() -> {
 			try {
 				int lives = Capstone.getLives();
-				for (int i = 0; i < 0; i++) { //TODO fix back to 10
+				for (int i = 0; i < 10; i++) {
 					//Check to see if they've lost the minigame
 					if (Capstone.getLives() != lives) break;
 					
@@ -63,7 +65,7 @@ public class CirclesMinigame extends BorderPane {
 				}
 				
 				//Give last spawned circle time to shrink entirely, if needed (Time to shrink a circle - sleep time between each circle + a little extra)
-				Thread.sleep(0);//TODO Put back to 1550
+				Thread.sleep(1550);
 				
 				//Sometimes another circle will have spawned before lostALife() is called. In this case, set lives to correct amount.
 				if (Capstone.getLives() < lives - 1) Capstone.setLives(lives - 1);

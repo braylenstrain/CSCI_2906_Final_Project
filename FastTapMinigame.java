@@ -29,7 +29,11 @@ public class FastTapMinigame extends BorderPane {
 	//Starts level1 version of Fast Tap Minigame
 	private void level1() {
 		//Instructions explaining the minigame
-		Text instructions = new Text("This minigame is Fast Tap.\nYou must tap the displayed key enough times before the timer reaches 0.\nPay attention! The key could switch midgame.\nThe counter below the key shows how many times you've tapped the key\nvs how many times you must tap total.");
+		Text instructions = new Text("This minigame is Fast Tap.\n"
+				+ "You must tap the displayed key enough times before the timer reaches 0.\n"
+				+ "Pay attention! The key could switch midgame.\n"
+				+ "The counter below the key shows how many times you've tapped the key\n"
+				+ "vs how many times you must tap total.");
 		instructions.setFont(Font.font(15));
 		
 		//Button to start the game
@@ -44,7 +48,7 @@ public class FastTapMinigame extends BorderPane {
 		//Starts the minigame when btStart is clicked
 		btStart.setOnAction(e -> {
 			getChildren().clear();
-			playGame(10, 0); //TODO change back to 30
+			playGame(10, 30);
 		});
 	}
 	
