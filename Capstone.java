@@ -61,6 +61,8 @@ public class Capstone extends Application{
 				runSecondMinigame(primaryStage);
 			} else if (pane instanceof FastTapMinigame) {
 				runThirdMinigame(primaryStage);
+			} else if (pane instanceof SearchMinigame) {
+				runFourthMinigame(primaryStage);
 			}
 		});
 
@@ -83,9 +85,10 @@ public class Capstone extends Application{
 		}).start();
 	}
 	
+	//TODO Make sure after 5th minigame their is an endgame check
 	//Run the first minigame after the intro is done
 	private void runFirstMinigame(Stage primaryStage) {
-		pane = new SearchMinigame(level); //TODO hange back to first minigame
+		pane = new SearchMinigame(level); //TODO change back to first minigame
 		scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 		primaryStage.setScene(scene);
 	}
@@ -101,14 +104,19 @@ public class Capstone extends Application{
 				} else {
 					Platform.runLater(() -> wonAMinigame(primaryStage));
 				}
-				Thread.sleep(000);//TODO put back to 3000
+				Thread.sleep(3000);
 				
-				//Put second minigame into stage
-				Platform.runLater(() -> {
-					pane = new FastTapMinigame(level);
-					scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
-					primaryStage.setScene(scene);
-				});
+				//If user lost all lives, call endGame()
+				if (lives == 0) {
+					endGame();
+				} else {
+					//Put next minigame into stage
+					Platform.runLater(() -> {
+						pane = new FastTapMinigame(level);
+						scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
+						primaryStage.setScene(scene);
+					});
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -126,13 +134,48 @@ public class Capstone extends Application{
 				} else {
 					Platform.runLater(() -> wonAMinigame(primaryStage));
 				}
-				Thread.sleep(000);//TODO put back to 3000
-				//Put third minigame into stage
-				Platform.runLater(() -> {
-					pane = new SearchMinigame(level);
-					scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
-					primaryStage.setScene(scene);
-				});
+				Thread.sleep(3000);
+				
+				//If user lost all lives, call endGame()
+				if (lives == 0) {
+					endGame();
+				} else {
+					//Put next minigame into stage
+					Platform.runLater(() -> {
+						pane = new SearchMinigame(level);
+						scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
+						primaryStage.setScene(scene);
+					});
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}).start();
+	}
+	
+	private void runFourthMinigame(Stage primaryStage) {
+		new Thread(() -> {
+			try {
+				//Display win/loss page after last minigame for 3 seconds
+				if (preMinigameLives != lives) {
+					Platform.runLater(() -> lostALife(primaryStage));
+					preMinigameLives = lives;
+				} else {
+					Platform.runLater(() -> wonAMinigame(primaryStage));
+				}
+				Thread.sleep(3000);
+				
+				//If user lost all lives, call endGame()
+				if (lives == 0) {
+					endGame();
+				} else {
+					//Put next minigame into stage
+					Platform.runLater(() -> {
+						pane = new SearchMinigame(level); //TODO change
+						scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
+						primaryStage.setScene(scene);
+					});
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -182,6 +225,10 @@ public class Capstone extends Application{
 		pane = new StackPane(winText);
 		Scene scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 		primaryStage.setScene(scene);
+	}
+	
+	private void endGame() {
+		//TODO
 	}
 
 }
