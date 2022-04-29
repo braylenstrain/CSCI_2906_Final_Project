@@ -8,10 +8,10 @@ import javafx.scene.image.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.shape.Line;
 
 public class SearchMinigame extends BorderPane {
 	private static final int WINDOW_SIZE = 700; //Size of entire window
@@ -115,7 +115,7 @@ public class SearchMinigame extends BorderPane {
 			if (foundSpot) {
 				//Add image coordinates to imagePlacement, set Opacity to 0, and add it to pane
 				imagePlacement.add(new Point2D(image.getX(), image.getY()));
-				image.setOpacity(1); //TODO Change back to 0
+				image.setOpacity(0);
 				pane.getChildren().add(image);
 				
 				//Images are revealed when mouse is hovered over them
@@ -125,7 +125,7 @@ public class SearchMinigame extends BorderPane {
 				
 				//Images disappear when mouse is no longer hovered over
 				image.setOnMouseExited(e -> {
-					image.setOpacity(1); //TODO change back to 0
+					image.setOpacity(0);
 				});
 				
 				//User wins if they click the correct image before timer hits 0
@@ -149,13 +149,28 @@ public class SearchMinigame extends BorderPane {
 			}
 		}
 		
-		//If timer reaches 0, player loses
+		//If timer reaches 0, player loses a life
 		countdownAnimation.setOnFinished(e -> {
 			//Stop all actions on the correct image and show it's location to player
 			imageList.get(0).setOnMouseEntered(null);
 			imageList.get(0).setOnMouseExited(null);
 			imageList.get(0).setOnMouseClicked(null);
 			imageList.get(0).setOpacity(1);
+			
+			//Create loseText with a PathTransimation haha ;)
+			Text loseText = new Text("ooooooooo you didn't find it in time lol!");
+			loseText.setFont(Font.font(30));
+			pane.getChildren().add(loseText);
+			PathTransition loseAnimation = new PathTransition(Duration.millis(5000), new Line(250, 25, 450, 525), loseText);
+			loseAnimation.setCycleCount(Timeline.INDEFINITE);
+			loseAnimation.setAutoReverse(true);
+			loseAnimation.play();
+			
+			//Take a life
+			Capstone.setLives(Capstone.getLives() - 1);
+			
+			//Add next button to top
+			imgAndTimer.getChildren().add(Capstone.btNextMinigame);
 		});
 		
 		//Set pane of images to center
