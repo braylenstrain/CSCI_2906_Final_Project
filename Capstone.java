@@ -228,7 +228,8 @@ public class Capstone extends Application{
 	}
 	
 	private void endGame() {
-		//TODO
+		//Display lost scene
+		//TODO Offer a restart button. If clicked, reset lives, preminigame lives, and level. Then display CirclesMinigame
 	}
 
 }
