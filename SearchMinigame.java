@@ -89,12 +89,6 @@ public class SearchMinigame extends BorderPane {
 		
 	}
 	
-	//Set coordinates of image
-	private void findImageCoordinates(ImageView image, int imgSize) {
-		image.setX(Math.random() * (WINDOW_SIZE - imgSize));
-		image.setY(Math.random() * (WINDOW_SIZE - imgSize - TOP_SIZE));
-	}
-	
 	private void runGame(int numOfImages, int imgSize, int timerLength) {
 		//Create goalImage that player needs to find (first image in imageList after it's been shuffled)
 				Image glImg = imageList.get(0).getImage();
@@ -180,7 +174,7 @@ public class SearchMinigame extends BorderPane {
 								winPane.setPrefHeight(TOP_SIZE);
 								Text winText = new Text("Congratulations, you found it!");
 								winText.setFont(Font.font(30));
-								winPane.getChildren().addAll(winText, Capstone.btNextMinigame);
+								winPane.getChildren().addAll(winText, Capstone.btNextMinigame); //TODO See if btNMG margins and such get messed up if this game is played first vs after
 								setTop(winPane);
 								winPane.setAlignment(Pos.CENTER);
 							});
@@ -214,6 +208,12 @@ public class SearchMinigame extends BorderPane {
 				
 				//Set pane of images to center
 				setCenter(pane);
+	}
+	
+	//Set coordinates of image
+	private void findImageCoordinates(ImageView image, int imgSize) {
+		image.setX(Math.random() * (WINDOW_SIZE - imgSize));
+		image.setY(Math.random() * (WINDOW_SIZE - imgSize - TOP_SIZE));
 	}
 	
 }
