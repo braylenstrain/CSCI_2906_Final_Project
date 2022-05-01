@@ -52,6 +52,14 @@ public class FastTapMinigame extends BorderPane {
 		});
 	}
 	
+	private void level2() {
+		//TODO Just like level 1 with different parameters when playGame is called
+	}
+	
+	private void level3() {
+		//TODO
+	}
+	
 	//Play the minigame using the given time and number of taps
 	private void playGame(int time, int numberOfTaps) {
 		//Set time as Text to top
@@ -117,6 +125,8 @@ public class FastTapMinigame extends BorderPane {
 			winText.setFont(Font.font(20));
 			setCenter(winText);
 			setBottom(Capstone.btNextMinigame);
+			setAlignment(Capstone.btNextMinigame, Pos.CENTER_RIGHT);
+			setMargin(Capstone.btNextMinigame, new Insets(20));
 			this.requestFocus(); //So that the user doesn't accidentally skip past if the last tapped key was ENTER
 		}
 	}
@@ -178,11 +188,4 @@ public class FastTapMinigame extends BorderPane {
 		}
 	}
 	
-	private void level2() {
-		//TODO Just like level 1 with different parameters when playGame is called
-	}
-	
-	private void level3() {
-		//TODO
-	}
 }
