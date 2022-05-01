@@ -1,4 +1,4 @@
-
+package application;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -178,7 +178,7 @@ public class SearchMinigame extends BorderPane {
 								HBox winPane = new HBox();
 								winPane.setSpacing(50);
 								winPane.setPrefHeight(TOP_SIZE);
-								Text winText = new Text("Congratulations, you found it.");
+								Text winText = new Text("Congratulations, you found it!");
 								winText.setFont(Font.font(30));
 								winPane.getChildren().addAll(winText, Capstone.btNextMinigame);
 								setTop(winPane);

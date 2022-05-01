@@ -1,4 +1,4 @@
-
+package application;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
@@ -113,7 +113,7 @@ public class FastTapMinigame extends BorderPane {
 	private void checkForWin(int numberOfTaps, Timeline countdownAnimation) {
 		if (currentTaps >= numberOfTaps) {
 			countdownAnimation.stop();
-			Text winText = new Text("ALRIGHT ALRIGHT you can stop tapping now! You got enough, geez.");
+			Text winText = new Text("ALRIGHT ALRIGHT you can stop tapping now! You got it.");
 			winText.setFont(Font.font(20));
 			setCenter(winText);
 			setBottom(Capstone.btNextMinigame);

@@ -1,4 +1,4 @@
-
+package application;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.util.Duration;
@@ -71,7 +71,7 @@ public class CirclesMinigame extends BorderPane {
 				if (Capstone.getLives() < lives - 1) Capstone.setLives(lives - 1);
 				//Display this text if user beats minigame
 				else if (Capstone.getLives() == lives) Platform.runLater(() -> {
-					Text winText = new Text("Yipee for you, you got them all.");
+					Text winText = new Text("Nice work player, you got them all!");
 					winText.setFont(Font.font(20));
 					setCenter(winText);
 				});
