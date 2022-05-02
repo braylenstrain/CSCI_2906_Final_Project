@@ -25,9 +25,9 @@ public class DodgeMinigame extends BorderPane {
 		
 		if (level == 1) {
 			//Instructions explaining the minigame
-			Text instructions = new Text("\t\t\t\t    This minigame is called Dodge.\n"
+			Text instructions = new Text("This minigame is called Dodge.\n"
 					+ "You are the little smiley face in the black box. Use the arrow keys to move.\n"
-					+ "\tAvoid all the other larger boxes as they come flying towards you to win!\n\n"
+					+ "Avoid all the other larger boxes as they come flying towards you to win!\n\n"
 					+ "Tips:\n"
 					+ "1. The black box is a part of you. Don't let it touch anything!\n"
 					+ "2. If you get touched, everything freezes. In some cases,\n"
