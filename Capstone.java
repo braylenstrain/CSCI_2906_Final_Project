@@ -64,7 +64,10 @@ public class Capstone extends Application{
 			} else if (pane instanceof SearchMinigame) {
 				runFourthMinigame(primaryStage);
 			} else if (pane instanceof DodgeMinigame) {
-				runFirstMinigame(primaryStage); //TODO change
+				runFifthMinigame(primaryStage);
+			} else if (pane instanceof MathMinigame) {
+				//TODO check for win/change level
+				runFirstMinigame(primaryStage);
 			}
 		});
 
@@ -174,6 +177,35 @@ public class Capstone extends Application{
 					//Put next minigame into stage
 					Platform.runLater(() -> {
 						pane = new DodgeMinigame(level);
+						scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
+						primaryStage.setScene(scene);
+					});
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}).start();
+	}
+	
+	private void runFifthMinigame(Stage primaryStage) {
+		new Thread(() -> {
+			try {
+				//Display win/loss page after last minigame for 3 seconds
+				if (preMinigameLives != lives) {
+					Platform.runLater(() -> lostALife(primaryStage));
+					preMinigameLives = lives;
+				} else {
+					Platform.runLater(() -> wonAMinigame(primaryStage));
+				}
+				Thread.sleep(2000);
+				
+				//If user lost all lives, call endGame()
+				if (lives == 0) {
+					endGame();
+				} else {
+					//Put next minigame into stage
+					Platform.runLater(() -> {
+						pane = new MathMinigame(level);
 						scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 						primaryStage.setScene(scene);
 					});
