@@ -64,6 +64,8 @@ public class Capstone extends Application{
 				runThirdMinigame(primaryStage);
 			} else if (pane instanceof SearchMinigame) {
 				runFourthMinigame(primaryStage);
+			} else if (pane instanceof DodgeMinigame) {
+				runFirstMinigame(primaryStage); //TODO change
 			}
 		});
 
@@ -89,7 +91,7 @@ public class Capstone extends Application{
 	//TODO Make sure after 5th minigame their is an endgame check
 	//Run the first minigame after the intro is done
 	private void runFirstMinigame(Stage primaryStage) {
-		pane = new CirclesMinigame(level); //TODO change back to first minigame
+		pane = new DodgeMinigame(level); //TODO change back to first minigame
 		scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 		primaryStage.setScene(scene);
 	}
