@@ -4,9 +4,16 @@ import javafx.scene.layout.*;
 import javafx.scene.text.*;
 
 public class MathMinigame extends BorderPane {
+	//Numbers used to determine arithmetic operations (set to -1 to show code error)
 	private int firstNum = -1;
 	private int secondNum = -1;
 	private int operatorNum = -1;
+	private char operatorChar; //For displaying the equation to the user
+	//Constants to represent which operation is being performed
+	private static final int ADD = 0;
+	private static final int SUBTRACT = 1;
+	private static final int MULTIPLY = 2;
+	private static final int DIVIDE= 3;
 	
 	public MathMinigame(int level) {
 		//Button to start the game
@@ -33,6 +40,7 @@ public class MathMinigame extends BorderPane {
 				playGame(10, 10);
 			});
 		} else if (level == 2) {
+			//Intro
 			Text text = new Text("Simple Arithmetic: Level 2\n15 problems, 12 seconds");
 			text.setFont(Font.font(30));
 			setTop(text);
@@ -46,6 +54,7 @@ public class MathMinigame extends BorderPane {
 				playGame(15, 10);
 			});
 		} else {
+			//Intro
 			Text text = new Text("Simple Arithmetic: Level 3\n15 problems, 10 seconds");
 			text.setFont(Font.font(30));
 			setTop(text);
@@ -75,21 +84,29 @@ public class MathMinigame extends BorderPane {
 			//Get operation
 			operatorNum = (int)(Math.random() * 4);
 			//Addition
-			if (operatorNum == 0) {
-				if (firstNum + secondNum < 10);
-				break;
+			if (operatorNum == ADD) {
+				if (firstNum + secondNum < 10) {
+					operatorChar = '+';
+					break;
+				}
 			//Subtraction	
-			} else if (operatorNum == 1) {
-				if (firstNum - secondNum < 10);
-				break;
+			} else if (operatorNum == SUBTRACT) {
+				if (firstNum - secondNum < 10 && firstNum - secondNum >= 0) {
+					operatorChar = '-';
+					break;
+				}
 			//Multiplication
-			} else if (operatorNum == 2) {
-				if (firstNum * secondNum < 10);
-				break;
+			} else if (operatorNum == MULTIPLY) {
+				if (firstNum * secondNum < 10) {
+					operatorChar = 'x';
+					break;
+				}
 			//Division
-			} else if (operatorNum == 3) {
-				if (firstNum / secondNum < 10);
-				break;
+			} else if (operatorNum == DIVIDE) {
+				if (firstNum / secondNum < 10 && firstNum % secondNum == 0) {
+					operatorChar = '\u00F7';
+					break;
+				}
 			} else {
 				System.out.println("ERROR");
 			}
@@ -98,23 +115,33 @@ public class MathMinigame extends BorderPane {
 		//Check for correct answer when key is pressed
 		Capstone.scene.setOnKeyTyped(e -> {
 			String answer = e.getCharacter();
-			if (operatorNum == 0) {
+			if (operatorNum == ADD) {
 				if (firstNum + secondNum == Integer.parseInt(answer)) correctAnswer();
 				else wrongAnswer();
-			} else if (operatorNum == 1) {
+			} else if (operatorNum == SUBTRACT) {
 				if (firstNum - secondNum == Integer.parseInt(answer)) correctAnswer();
+				else wrongAnswer();
+			} else if (operatorNum == MULTIPLY) {
+				if (firstNum * secondNum == Integer.parseInt(answer)) correctAnswer();
+				else wrongAnswer();
+			} else if (operatorNum == DIVIDE) {
+				if (firstNum / secondNum == Integer.parseInt(answer)) correctAnswer();
 				else wrongAnswer();
 			}
 		});
+		
+		String equation = String.format("%d %c %d", firstNum, operatorChar, secondNum);
+		Text equationText = new Text(equation);
+		setCenter(equationText);
 		
 		//Create counter of problems vs total and put at bottom
 	}
 	
 	private void correctAnswer() {
-		
+		System.out.println("Correct");
 	}
 	
 	private void wrongAnswer() {
-		
+		System.out.println("Incorrect");
 	}
 }
