@@ -21,10 +21,11 @@ public class MathMinigame extends BorderPane {
 		
 		if (level == 1) {
 			//Instructions explaining the minigame
-			Text instructions = new Text("This minigame is Simple Arithmetic.\n"
+			Text instructions = new Text("\t\t\t\t\tLevel 1: 10 problems, 15 seconds\n\n"
+					+ "This minigame is Simple Arithmetic.\n"
 					+ "You have to answer all the math problems in the designated time.\n"
 					+ "Once you have pressed a number key, your answer will be submitted automatically.\n"
-					+ "Every answer will be a single digit answer, so I recommend using the keypad.\n"
+					+ "Every answer will be a single digit answer.\n"
 					+ "Be wary! If you input the wrong answer, you'll lose the minigame.");
 			instructions.setFont(Font.font(15));
 
@@ -37,11 +38,11 @@ public class MathMinigame extends BorderPane {
 			//Starts the minigame when btStart is clicked
 			btStart.setOnAction(e -> {
 				getChildren().clear();
-				playGame(10, 10);
+				playGame(10, 15);
 			});
 		} else if (level == 2) {
 			//Intro
-			Text text = new Text("Simple Arithmetic: Level 2\n15 problems, 12 seconds");
+			Text text = new Text("Simple Arithmetic: Level 2\n12 problems, 12 seconds");
 			text.setFont(Font.font(30));
 			setTop(text);
 			BorderPane.setAlignment(text, Pos.CENTER);
@@ -51,7 +52,7 @@ public class MathMinigame extends BorderPane {
 			//Start the minigame when btStart is clicked
 			btStart.setOnAction(e -> {
 				getChildren().clear();
-				playGame(15, 10);
+				playGame(12, 12);
 			});
 		} else {
 			//Intro
@@ -75,14 +76,42 @@ public class MathMinigame extends BorderPane {
 		String timerString = Integer.toString(timer);
 		Text timerText = new Text(timerString);
 		
-		//Create problem and put at center
+		//Get the equation to put at center
+		findEquation();
+		
+		//Create counter of problems vs total and put at bottom
+		
+		//Check for correct answer when key is pressed
+		Capstone.scene.setOnKeyTyped(e -> {
+			String answer = e.getCharacter();
+			if (answer.compareTo("0") >= 0 && answer.compareTo("9") <= 0) {
+				if (operatorNum == ADD) {
+					if (firstNum + secondNum == Integer.parseInt(answer)) correctAnswer();
+					else wrongAnswer();
+				} else if (operatorNum == SUBTRACT) {
+					if (firstNum - secondNum == Integer.parseInt(answer)) correctAnswer();
+					else wrongAnswer();
+				} else if (operatorNum == MULTIPLY) {
+					if (firstNum * secondNum == Integer.parseInt(answer)) correctAnswer();
+					else wrongAnswer();
+				} else if (operatorNum == DIVIDE) {
+					if (firstNum / secondNum == Integer.parseInt(answer)) correctAnswer();
+					else wrongAnswer();
+				}
+			}
+		});
+	}
+	
+	//Choose the numbers and operator for an equation and display in center
+	private void findEquation() {
 		for (int i = 0; i < 100; i++) {
 			//Get numbers
 			firstNum = (int)(Math.random() * 10);
 			secondNum = (int)(Math.random() * 10);
 			
-			//Get operation
+			//Get operator
 			operatorNum = (int)(Math.random() * 4);
+			
 			//Addition
 			if (operatorNum == ADD) {
 				if (firstNum + secondNum < 10) {
@@ -98,50 +127,41 @@ public class MathMinigame extends BorderPane {
 			//Multiplication
 			} else if (operatorNum == MULTIPLY) {
 				if (firstNum * secondNum < 10) {
-					operatorChar = 'x';
+					operatorChar = '\u00D7';
 					break;
 				}
 			//Division
 			} else if (operatorNum == DIVIDE) {
-				if (firstNum / secondNum < 10 && firstNum % secondNum == 0) {
+				if (secondNum != 0 && firstNum / secondNum < 10 && firstNum % secondNum == 0) {
 					operatorChar = '\u00F7';
 					break;
 				}
 			} else {
 				System.out.println("ERROR");
 			}
+			
+			if (i == 99) {
+				firstNum = 0;
+				secondNum = 0;
+				operatorNum = 0;
+				operatorChar = '+';
+			}
 		}
 		
-		//Check for correct answer when key is pressed
-		Capstone.scene.setOnKeyTyped(e -> {
-			String answer = e.getCharacter();
-			if (operatorNum == ADD) {
-				if (firstNum + secondNum == Integer.parseInt(answer)) correctAnswer();
-				else wrongAnswer();
-			} else if (operatorNum == SUBTRACT) {
-				if (firstNum - secondNum == Integer.parseInt(answer)) correctAnswer();
-				else wrongAnswer();
-			} else if (operatorNum == MULTIPLY) {
-				if (firstNum * secondNum == Integer.parseInt(answer)) correctAnswer();
-				else wrongAnswer();
-			} else if (operatorNum == DIVIDE) {
-				if (firstNum / secondNum == Integer.parseInt(answer)) correctAnswer();
-				else wrongAnswer();
-			}
-		});
-		
+		//Display equation
 		String equation = String.format("%d %c %d", firstNum, operatorChar, secondNum);
 		Text equationText = new Text(equation);
+		equationText.setFont(Font.font(50));
 		setCenter(equationText);
-		
-		//Create counter of problems vs total and put at bottom
 	}
 	
 	private void correctAnswer() {
-		System.out.println("Correct");
+		findEquation();
 	}
 	
 	private void wrongAnswer() {
 		System.out.println("Incorrect");
 	}
+	
+
 }
