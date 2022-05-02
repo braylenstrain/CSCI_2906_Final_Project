@@ -19,16 +19,25 @@ public class DodgeMinigame extends BorderPane {
 	public static final int SQUARE_SIZE = 50; //width and height of square
 	private ArrayList<Timeline> animationList = new ArrayList<>(); //A list of all animations in the minigame. Used to stop them all at once if player loses.
 	
+	//Create a new minigame with the pregame text and number of squares per side changed per level
 	public DodgeMinigame(int level) {
+		//Button to start the game
+		Button btStart = new Button("Let's Go!");
+		
 		if (level == 1) {
 			//Instructions explaining the minigame
-			Text instructions = new Text("Instructions go here"); //TODO
+			Text instructions = new Text("\t\t\t\t    This minigame is called Dodge.\n"
+					+ "You are the little smiley face in the black box. Use the arrow keys to move.\n"
+					+ "\tAvoid all the other larger boxes as they come flying towards you to win!\n\n"
+					+ "Tips:\n"
+					+ "1. The black box is a part of you. Don't let it touch anything!\n"
+					+ "2. If you get touched, everything freezes. In some cases,\n"
+					+ "    it may look like you weren't actually hit.\n"
+					+ "    This is just due to a delay stopping the animations.\n"
+					+ "    You were hit, I promise.");
 			instructions.setFont(Font.font(15));
-			
-			//Button to start the game
-			Button btStart = new Button("Let's Go!");
-			
-			//Put instructions and btStart into this
+
+			//Put instructions and btStart into top and center respectively
 			setTop(instructions);
 			BorderPane.setAlignment(instructions, Pos.CENTER);
 			setCenter(btStart);
@@ -40,11 +49,31 @@ public class DodgeMinigame extends BorderPane {
 				playGame(6);
 			});
 		} else if (level == 2) {
-			//TODO Pregame button
-			playGame(11);
+			Text text = new Text("Dodge: Level 2");
+			text.setFont(Font.font(30));
+			setTop(text);
+			BorderPane.setAlignment(text, Pos.CENTER);
+			setCenter(btStart);
+			BorderPane.setAlignment(btStart, Pos.CENTER);
+			
+			//Start the minigame when btStart is clicked
+			btStart.setOnAction(e -> {
+				getChildren().clear();
+				playGame(11);
+			});
 		} else {
-			//TODO Pregame button
-			playGame(16);
+			Text text = new Text("Dodge: Level 3");
+			text.setFont(Font.font(30));
+			setTop(text);
+			BorderPane.setAlignment(text, Pos.CENTER);
+			setCenter(btStart);
+			BorderPane.setAlignment(btStart, Pos.CENTER);
+			
+			//Start the minigame when btStart is clicked
+			btStart.setOnAction(e -> {
+				getChildren().clear();
+				playGame(16);
+			});
 		}
 	}
 	
@@ -223,7 +252,7 @@ public class DodgeMinigame extends BorderPane {
 		}
 
 		//Create loseText with fade animation and add to pane
-		Text loseText = new Text(getWidth() / 4, getHeight() / 2, "Oh no, you were splattered");
+		Text loseText = new Text(getWidth() / 4, getHeight() / 2, "Oh no, you were splattered!");
 		loseText.setFont(Font.font(30));
 		
 		FadeTransition loseTextAnimation = new FadeTransition(Duration.millis(1000), loseText);
@@ -254,7 +283,7 @@ public class DodgeMinigame extends BorderPane {
 		}).start();
 	}
 	
-	//Player never touched a square, therefore the winCheck animation was never stopped
+	//Player never touched a square, AKA the winCheck animation was never stopped
 	private void playerWins() {
 		HBox winBox = new HBox(100);
 		winBox.setAlignment(Pos.CENTER);
