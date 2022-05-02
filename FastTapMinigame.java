@@ -1,4 +1,3 @@
-package application;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
@@ -15,6 +14,7 @@ public class FastTapMinigame extends BorderPane {
 	private String key; //The name of the key that needs to be tapped
 	private Enum<KeyCode> keyCode; //The keycode of the key that needs to be tapped
 	private int currentTaps; //How many times the user has tapped the correct key
+	private static boolean notHeldDown = true; //Used to make sure player isn't holding down a key to count taps
 	
 	public FastTapMinigame(int level) {
 		if (level == 1) {
@@ -109,12 +109,16 @@ public class FastTapMinigame extends BorderPane {
 		
 		//Register key presses and call checkForWin()
 		Capstone.scene.setOnKeyPressed(e -> {
-			if (e.getCode() == keyCode) {
+			if (e.getCode() == keyCode && notHeldDown) {
 				currentTaps++;
 				tapCounter.setText(Integer.toString(currentTaps));
 				checkForWin(numberOfTaps, countdownAnimation);
+				notHeldDown = false;
 			}
 		});
+		
+		//Changes notHeldDown to true to prevent holding down the key to count as tapping
+		Capstone.scene.setOnKeyReleased(e -> notHeldDown = true);
 	}
 	
 	//Checks if currents taps has hit or passed numberOfTaps. If so, displays winText.
