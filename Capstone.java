@@ -72,13 +72,13 @@ public class Capstone extends Application{
 		new Thread(() -> {
 			try {
 				//TODO fix sleep numbers 3000, 6000
-				Thread.sleep(3000);
+				Thread.sleep(000);
 				introductionText.setText("Do you think you can beat it?");
-				Thread.sleep(3000);
+				Thread.sleep(000);
 				introductionText.setText("We will see.");
-				Thread.sleep(3000);
+				Thread.sleep(000);
 				introductionText.setText("You have 3 lives to beat 3 levels.\nThere are 5 minigames per level.\nLose a minigame, lose a life.\nLose all your lives, game over.");
-				Thread.sleep(6000);
+				Thread.sleep(000);
 				Platform.runLater(() -> pane.getChildren().clear());
 				Platform.runLater(() -> runFirstMinigame(primaryStage));
 			} catch (InterruptedException e) {
@@ -90,7 +90,7 @@ public class Capstone extends Application{
 	//TODO Make sure after 5th minigame their is an endgame check
 	//Run the first minigame after the intro is done
 	private void runFirstMinigame(Stage primaryStage) {
-		pane = new CirclesMinigame(level); //TODO change back to first minigame
+		pane = new MathMinigame(level); //TODO change back to first minigame
 		scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 		primaryStage.setScene(scene);
 	}
@@ -216,7 +216,7 @@ public class Capstone extends Application{
 		case 13: winText.setText("I have faith in you!"); break;
 		case 14: winText.setText("You're better at this then most."); break;
 		case 15: winText.setText("I sense your confidence increasing..."); break;
-		case 16: winText.setText("Don't give up."); break;
+		case 16: winText.setText("Don't give up!"); break;
 		case 17: winText.setText("Nice! I bet you'll win the next one too!"); break;
 		case 18: winText.setText("=D"); break;
 		case 19: winText.setText("Nice work!"); break;
