@@ -72,7 +72,7 @@ public class MathMinigame extends BorderPane {
 	}
 	
 	private void playGame(int numberOfProblems, int timer) {
-		//Create timer and put at top
+		//TODO Create timer and put at top and lose if timer runs out
 		String timerString = Integer.toString(timer);
 		Text timerText = new Text(timerString);
 		
@@ -154,11 +154,12 @@ public class MathMinigame extends BorderPane {
 		equationText.setFont(Font.font(50));
 		setCenter(equationText);
 	}
-	
+	//TODO write comment
 	private void correctAnswer() {
 		findEquation();
 	}
 	
+	//TODO
 	private void wrongAnswer() {
 		System.out.println("Incorrect");
 	}
