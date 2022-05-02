@@ -1,4 +1,3 @@
-package application;
 //TODO display the minigames (if it's level 1, display instructions first)
 //TODO how to deal with losses in both minigames and overall. Need a restart option.
 //TODO final end game win "I never doubted you for a second"
@@ -17,8 +16,8 @@ import javafx.scene.control.Button;
 
 public class Capstone extends Application{
 	private Pane pane; //Each minigame pane will get set to this variable
-	private final int WINDOW_SIZE = 700; //Used to designate the size of the scenes
-	private int level = 1; //Current level the game is on
+	private static final int WINDOW_SIZE = 700; //Used to designate the size of the scenes
+	private static int level = 1; //Current level the game is on
 	private static int lives = 3; //How many lives the user has remaining
 	private static int preMinigameLives = 3; //How many lives the user had before the current minigame started
 	public static Button btNextMinigame = new Button("Next"); //Used to move on after a minigame is over

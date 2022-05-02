@@ -1,4 +1,3 @@
-package application;
 
 import java.util.ArrayList;
 import javafx.animation.*;
@@ -16,7 +15,7 @@ import javafx.util.Duration;
 
 public class DodgeMinigame extends BorderPane {
 	private static final int AVATAR_SIZE = 25; //Size of player avatar image
-	public static final int SQUARE_SIZE = 50; //width and height of square
+	private static final int SQUARE_SIZE = 50; //width and height of square
 	private ArrayList<Timeline> animationList = new ArrayList<>(); //A list of all animations in the minigame. Used to stop them all at once if player loses.
 	
 	//Create a new minigame with the pregame text and number of squares per side changed per level
@@ -79,7 +78,7 @@ public class DodgeMinigame extends BorderPane {
 	
 	//Start the minigame, with the argument being the number of squares that spawn on each edge of the pane
 	private void playGame(int squareCountPerSide) {
-		ImageView playerAvatar = new ImageView("2022_05_01_115_Kleki.png");
+		ImageView playerAvatar = new ImageView("images/2022_05_01_115_Kleki.png");
 		playerAvatar.setPreserveRatio(true);
 		playerAvatar.setFitHeight(AVATAR_SIZE);
 		playerAvatar.setX(getWidth() / 2);

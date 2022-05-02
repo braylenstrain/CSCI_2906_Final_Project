@@ -1,4 +1,3 @@
-package application;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.util.Duration;
@@ -11,9 +10,9 @@ import javafx.scene.shape.Circle;
 
 public class CirclesMinigame extends BorderPane {
 	private Pane pane = new Pane();
-	private final int PANE_WIDTH = 700; //Width of playable game area after introduction
-	private final int PANE_HEIGHT = 700; //Height of playable game area after introduction
-	private final double CIRCLE_RADIUS = 50.0; //Predetermined radius of the circles when spawned
+	private static final int PANE_WIDTH = 700; //Width of playable game area after introduction
+	private static final int PANE_HEIGHT = 700; //Height of playable game area after introduction
+	private static final double CIRCLE_RADIUS = 50.0; //Predetermined radius of the circles when spawned
 	
 	public CirclesMinigame(int level) {
 		if (level == 1) {
