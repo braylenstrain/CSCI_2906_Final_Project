@@ -1,3 +1,5 @@
+package application;
+
 //TODO display the minigames (if it's level 1, display instructions first)
 //TODO how to deal with losses in both minigames and overall. Need a restart option.
 //TODO final end game win "I never doubted you for a second"
@@ -66,8 +68,9 @@ public class Capstone extends Application{
 			} else if (pane instanceof DodgeMinigame) {
 				runFifthMinigame(primaryStage);
 			} else if (pane instanceof MathMinigame) {
-				//TODO check for win/change level
-				runFirstMinigame(primaryStage);
+				endOfLevel(primaryStage);
+				if (level < 4) runFirstMinigame(primaryStage);
+				else endGame();
 			}
 		});
 
@@ -102,7 +105,7 @@ public class Capstone extends Application{
 	private void runSecondMinigame(Stage primaryStage) {
 		new Thread(() -> {
 			try {
-				//Display win/loss page after last minigame for 3 seconds
+				//Display win/loss page after last minigame for 2 seconds
 				if (preMinigameLives != lives) {
 					Platform.runLater(() -> lostALife(primaryStage));
 					preMinigameLives = lives;
@@ -132,7 +135,7 @@ public class Capstone extends Application{
 	private void runThirdMinigame(Stage primaryStage) {
 		new Thread(() -> {
 			try {
-				//Display win/loss page after last minigame for 3 seconds
+				//Display win/loss page after last minigame for 2 seconds
 				if (preMinigameLives != lives) {
 					Platform.runLater(() -> lostALife(primaryStage));
 					preMinigameLives = lives;
@@ -161,7 +164,7 @@ public class Capstone extends Application{
 	private void runFourthMinigame(Stage primaryStage) {
 		new Thread(() -> {
 			try {
-				//Display win/loss page after last minigame for 3 seconds
+				//Display win/loss page after last minigame for 2 seconds
 				if (preMinigameLives != lives) {
 					Platform.runLater(() -> lostALife(primaryStage));
 					preMinigameLives = lives;
@@ -190,7 +193,7 @@ public class Capstone extends Application{
 	private void runFifthMinigame(Stage primaryStage) {
 		new Thread(() -> {
 			try {
-				//Display win/loss page after last minigame for 3 seconds
+				//Display win/loss page after last minigame for 2 seconds
 				if (preMinigameLives != lives) {
 					Platform.runLater(() -> lostALife(primaryStage));
 					preMinigameLives = lives;
@@ -208,6 +211,36 @@ public class Capstone extends Application{
 						pane = new MathMinigame(level);
 						scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 						primaryStage.setScene(scene);
+					});
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}).start();
+	}
+	
+	private void endOfLevel(Stage primaryStage) {
+		new Thread(() -> {
+			try {
+				//Display win/loss page after last minigame for 2 seconds
+				if (preMinigameLives != lives) {
+					Platform.runLater(() -> lostALife(primaryStage));
+					preMinigameLives = lives;
+				} else {
+					Platform.runLater(() -> wonAMinigame(primaryStage));
+				}
+				Thread.sleep(2000);
+				
+				//If user lost all lives, call endGame()
+				if (lives == 0) {
+					endGame();
+				} else {
+					//Increase level
+					level++;
+					
+					//Show end of level screen
+					Platform.runLater(() -> {
+						//TODO
 					});
 				}
 			} catch (InterruptedException e) {
@@ -262,8 +295,10 @@ public class Capstone extends Application{
 	}
 	
 	private void endGame() {
-		//Display lost scene
-		//TODO Offer a restart button. If clicked, reset lives, preminigame lives, and level. Then display CirclesMinigame
+		//If level < 4, Display lost scene
+		//TODO Offer a restart button. If clicked, reset lives, preminigame lives, and level. Then runFirstMinigame().
+		//Else, display win scene
+		//TODO Offer a play again button.
 	}
 
 }
