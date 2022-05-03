@@ -1,3 +1,5 @@
+package application;
+
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.util.Duration;
