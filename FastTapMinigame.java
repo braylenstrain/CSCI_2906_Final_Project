@@ -1,3 +1,5 @@
+package application;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
@@ -84,6 +86,8 @@ public class FastTapMinigame extends BorderPane {
 			loseText.setFont(Font.font(30));
 			setCenter(loseText);
 			setBottom(Capstone.btNextMinigame);
+			setAlignment(Capstone.btNextMinigame, Pos.CENTER_RIGHT);
+			setMargin(Capstone.btNextMinigame, new Insets(20));
 			this.requestFocus(); //So that the user doesn't accidentally skip past if the last tapped key was ENTER
 			Capstone.setLives(Capstone.getLives() - 1);
 			Capstone.scene.setOnKeyPressed(null); //So that user doesn't get the win text after already losing if they keep tapping
