@@ -2,6 +2,7 @@ package application;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -39,7 +40,9 @@ public class MathMinigame extends BorderPane {
 					+ "You have to answer all the math problems in the designated time.\n"
 					+ "Once you have pressed a number key, your answer will be submitted automatically.\n"
 					+ "Every answer will be a single digit answer.\n"
-					+ "Be wary! If you input the wrong answer, you'll lose the minigame.");
+					+ "Be wary! If you input the wrong answer, you'll lose the minigame.\n"
+					+ "Hint: If you type an answer and the equation doesn't change,\n"
+					+ "the equation was replaced with an exact copy. Just answer it again!");
 			instructions.setFont(Font.font(15));
 
 			//Put instructions and btStart into top and center respectively
@@ -107,11 +110,22 @@ public class MathMinigame extends BorderPane {
 			Text loseText = new Text("Out of time.");
 			loseText.setFont(Font.font(30));
 			setCenter(loseText);
-			setBottom(Capstone.btNextMinigame);
-			setAlignment(Capstone.btNextMinigame, Pos.CENTER_RIGHT);
-			setMargin(Capstone.btNextMinigame, new Insets(20));
 			Capstone.setLives(Capstone.getLives() - 1);
 			Capstone.scene.setOnKeyTyped(null); //So that user can't keep inputting answers
+			
+			//When timer runs out, wait 3 seconds before replacing the counter with the next button
+			new Thread(() -> {
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException ex) {
+					ex.printStackTrace();
+				}
+				Platform.runLater(() -> {
+					setBottom(Capstone.btNextMinigame);
+					setAlignment(Capstone.btNextMinigame, Pos.CENTER_RIGHT);
+					setMargin(Capstone.btNextMinigame, new Insets(20));
+				});
+			}).start();
 		});
 		
 		//Get the equation to put at center
