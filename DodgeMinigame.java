@@ -1,4 +1,3 @@
-package application;
 
 import java.util.ArrayList;
 import javafx.animation.*;
@@ -27,13 +26,8 @@ public class DodgeMinigame extends BorderPane {
 			//Instructions explaining the minigame
 			Text instructions = new Text("This minigame is called Dodge.\n"
 					+ "You are the little smiley face in the black box. Use the arrow keys to move.\n"
-					+ "Avoid all the other larger boxes as they come flying towards you to win!\n\n"
-					+ "Tips:\n"
-					+ "1. The black box is a part of you. Don't let it touch anything!\n"
-					+ "2. If you get touched, everything freezes. In some cases,\n"
-					+ "    it may look like you weren't actually hit.\n"
-					+ "    This is just due to a delay stopping the animations.\n"
-					+ "    You were hit, I promise.");
+					+ "Avoid all the other boxes as they come flying towards you to win!\n\n"
+					+ "Tip: The black box is a part of you. Don't let it touch anything!");
 			instructions.setFont(Font.font(15));
 
 			//Put instructions and btStart into top and center respectively
@@ -78,7 +72,7 @@ public class DodgeMinigame extends BorderPane {
 	
 	//Start the minigame, with the argument being the number of squares that spawn on each edge of the pane
 	private void playGame(int squareCountPerSide) {
-		ImageView playerAvatar = new ImageView("2022_05_01_115_Kleki.png"); //TODO images/
+		ImageView playerAvatar = new ImageView("images/2022_05_01_115_Kleki.png");
 		playerAvatar.setPreserveRatio(true);
 		playerAvatar.setFitHeight(AVATAR_SIZE);
 		playerAvatar.setX(getWidth() / 2);
@@ -86,6 +80,13 @@ public class DodgeMinigame extends BorderPane {
 		Pane pane = new Pane(playerAvatar);
 		setCenter(pane);
 		
+		//Make a square border bound to playerAvatar that doens't trigger a loss when touched(gives the player a little wiggle room)
+		Rectangle playerBorder = new Rectangle(AVATAR_SIZE + 5, AVATAR_SIZE + 5);
+		playerBorder.setFill(Color.BLACK);
+		pane.getChildren().add(playerBorder);
+		playerBorder.toBack();
+		playerBorder.xProperty().bind(playerAvatar.xProperty().subtract(3));
+		playerBorder.yProperty().bind(playerAvatar.yProperty().subtract(3));
 		
 		//Animations that run when certain key is pressed on stopped when certain key is released
 		Timeline upAnimation = new Timeline(new KeyFrame(Duration.millis(1), e -> {
