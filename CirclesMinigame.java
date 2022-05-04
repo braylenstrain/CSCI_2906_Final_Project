@@ -1,4 +1,3 @@
-package application;
 
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -84,7 +83,7 @@ public class CirclesMinigame extends BorderPane {
 					if (Capstone.getLives() != lives) break;
 					
 					//Else, continue the game
-					makeACircle(i);
+					makeACircle();
 					Thread.sleep(millisBetweenCircles);
 				}
 				
@@ -113,25 +112,29 @@ public class CirclesMinigame extends BorderPane {
 	}
 	
 	//Creates a circle, sets setOnMouseClick action for circle, puts into pane, calls shrinkCircle in a TimeLine to shrink it
-	private void makeACircle(int viewOrder) {
+	private void makeACircle() {
 		//Makes sure circles are spawned entirely in the pane
 		double randomX = Math.random() * PANE_WIDTH;
 		randomX = randomX > PANE_WIDTH - CIRCLE_RADIUS ? randomX -= CIRCLE_RADIUS : randomX < CIRCLE_RADIUS ? randomX += CIRCLE_RADIUS : randomX;
 		double randomY = Math.random() * PANE_HEIGHT;
 		randomY = randomY > PANE_HEIGHT - CIRCLE_RADIUS ? randomY -= CIRCLE_RADIUS : randomY < CIRCLE_RADIUS ? randomY += CIRCLE_RADIUS : randomY;
 		
-		//Create circle, set stroke to white and set viewOrder in case of overlap (newer circles spawn behind)
+		//Create circle, set stroke to white and call toBack() in case of overlap (newer circles spawn behind)
 		Circle circle = new Circle(randomX, randomY, CIRCLE_RADIUS);
 		circle.setStroke(Color.WHITE);
-		circle.setViewOrder(viewOrder);
+		
+		//circle.setViewOrder(viewOrder); THIS DOESN't WORK IN JAVA 8. If you use this you need to add a viewOrder parameter that takes i as an argument from the parent method.
 		
 		//Add clicking functionality to circle
 		circle.setOnMouseClicked(e -> {
 			circle.setRadius(0);
 		});
 		
-		//Add circle to pane
-		Platform.runLater(() -> pane.getChildren().add(circle));
+		//Add circle to pane and put behind all other current circles
+		Platform.runLater(() -> {
+			pane.getChildren().add(circle);
+			circle.toBack();
+		});
 		
 		//Shrink animation for the circles
 		Timeline circleShrink = new Timeline(new KeyFrame(Duration.millis(50), e -> shrinkCircle(circle)));
