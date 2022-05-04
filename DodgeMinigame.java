@@ -19,7 +19,6 @@ public class DodgeMinigame extends BorderPane {
 	private static final int SQUARE_SIZE = 50; //width and height of square
 	private ArrayList<Timeline> animationList = new ArrayList<>(); //A list of all animations in the minigame. Used to stop them all at once if player loses.
 	
-	//Create a new minigame with the pregame text and number of squares per side changed per level
 	public DodgeMinigame(int level) {
 		//Button to start the game
 		Button btStart = new Button("Let's Go!");
@@ -59,7 +58,7 @@ public class DodgeMinigame extends BorderPane {
 			//Start the minigame when btStart is clicked
 			btStart.setOnAction(e -> {
 				getChildren().clear();
-				playGame(11);
+				playGame(10);
 			});
 		} else {
 			Text text = new Text("Dodge: Level 3");
@@ -72,14 +71,14 @@ public class DodgeMinigame extends BorderPane {
 			//Start the minigame when btStart is clicked
 			btStart.setOnAction(e -> {
 				getChildren().clear();
-				playGame(16);
+				playGame(14);
 			});
 		}
 	}
 	
 	//Start the minigame, with the argument being the number of squares that spawn on each edge of the pane
 	private void playGame(int squareCountPerSide) {
-		ImageView playerAvatar = new ImageView("images/2022_05_01_115_Kleki.png");
+		ImageView playerAvatar = new ImageView("2022_05_01_115_Kleki.png"); //TODO images/
 		playerAvatar.setPreserveRatio(true);
 		playerAvatar.setFitHeight(AVATAR_SIZE);
 		playerAvatar.setX(getWidth() / 2);
