@@ -18,76 +18,92 @@ import javafx.scene.shape.Line;
 public class SearchMinigame extends BorderPane {
 	private static final int WINDOW_SIZE = 700; //Size of entire window
 	private static final int TOP_SIZE = 150; //Size of top border
-	private List<ImageView> imageList = Arrays.asList(
-			new ImageView(new Image("images/2022_04_27_0m8_Kleki-removebg-preview.png")),
-			new ImageView(new Image("images/2022_04_27_0mb_Kleki-removebg-preview.png")),
-			new ImageView(new Image("images/2022_04_27_0md_Kleki-removebg-preview.png")),
-			new ImageView(new Image("images/2022_04_27_0mi_Kleki-removebg-preview.png")),
-			new ImageView(new Image("images/2022_04_27_0mk_Kleki-removebg-preview.png")),
-			new ImageView(new Image("images/2022_04_27_0ml_Kleki-removebg-preview.png")),
-			new ImageView(new Image("images/2022_04_27_0mn_Kleki-removebg-preview.png")),
-			new ImageView(new Image("images/2022_04_27_0mo_Kleki-removebg-preview.png")),
-			new ImageView(new Image("images/2022_04_27_0mp_Kleki-removebg-preview.png")),
-			new ImageView(new Image("images/2022_04_27_0ms_Kleki-removebg-preview.png")),
-			new ImageView(new Image("images/23710-8-legolas-transparent-image.png")),
-			new ImageView(new Image("images/388-3880363_captain-jack-sparrow-png-removebg-preview.png")),
-			new ImageView(new Image("images/8e6b064c27cdda51e81589dc11ac68bf-removebg-preview.png")),
-			new ImageView(new Image("images/Avatar_Aang.png")),
-			new ImageView(new Image("images/Master-Chief-Transparent-Background.png")),
-			new ImageView(new Image("images/tumblr_orvfd8FdK51rxkqbso1_500.png"))
+	private List<ImageView> imageList = Arrays.asList( //TODO images/
+			new ImageView(new Image("2022_04_27_0m8_Kleki-removebg-preview.png")),
+			new ImageView(new Image("2022_04_27_0mb_Kleki-removebg-preview.png")),
+			new ImageView(new Image("2022_04_27_0md_Kleki-removebg-preview.png")),
+			new ImageView(new Image("2022_04_27_0mi_Kleki-removebg-preview.png")),
+			new ImageView(new Image("2022_04_27_0mk_Kleki-removebg-preview.png")),
+			new ImageView(new Image("2022_04_27_0ml_Kleki-removebg-preview.png")),
+			new ImageView(new Image("2022_04_27_0mn_Kleki-removebg-preview.png")),
+			new ImageView(new Image("2022_04_27_0mo_Kleki-removebg-preview.png")),
+			new ImageView(new Image("2022_04_27_0mp_Kleki-removebg-preview.png")),
+			new ImageView(new Image("2022_04_27_0ms_Kleki-removebg-preview.png")),
+			new ImageView(new Image("23710-8-legolas-transparent-image.png")),
+			new ImageView(new Image("388-3880363_captain-jack-sparrow-png-removebg-preview.png")),
+			new ImageView(new Image("8e6b064c27cdda51e81589dc11ac68bf-removebg-preview.png")),
+			new ImageView(new Image("Avatar_Aang.png")),
+			new ImageView(new Image("Master-Chief-Transparent-Background.png")),
+			new ImageView(new Image("tumblr_orvfd8FdK51rxkqbso1_500.png"))
 			);
 	private Pane pane = new Pane();
 	
 	public SearchMinigame(int level) {
 		Collections.shuffle(imageList); //Shuffle imageList so each SearchMinigame has different images/image locations
 		pane.setStyle("-fx-background-color: white; -fx-border-style: solid;");
-		if (level == 1) {
-			level1();
-		} else if (level == 2) {
-			level2();
-		} else {
-			level3();
-		}
-	}
-
-	//Put 8 pictures behind pane to search through
-	private void level1() {
-		//Instructions explaining the minigame
-		Text instructions = new Text("This minigame is Find The Hidden Image. At the top is the image you are looking for.\n"
-				+ "In the blank area below, move your mouse around to reveal hidden images.\n"
-				+ "Click on the goal image before time runs out to win!\n\n"
-				+ "Tips:\n"
-				+ "1. Frantically moving the mouse around may not reveal the \"skinnier\" pictures (like stick figures).\n"
-				+ "2. Be precise when clicking on the image. Don't click on whitespace, click on colors.\n"
-				+ "3. Sometimes images like to hide under Legolas' bow (you'll understand when you see it),\n"
-				+ "     check carefully around that area.");
-		instructions.setFont(Font.font(15));
 
 		//Button to start the game
 		Button btStart = new Button("Let's Go!");
 		
-		//Set instructions and btStart into top and center
-		setTop(instructions);
-		BorderPane.setAlignment(instructions, Pos.CENTER);
-		setCenter(btStart);
-		BorderPane.setAlignment(btStart, Pos.CENTER);
-		
-		//Starts the minigame when btStart is clicked
-		btStart.setOnAction(e -> {
-			getChildren().clear();
-			runGame(8, 200, 10);
-		});
-		
-	}
-	
-	private void level2() {
-		//TODO difficulty increases by number of nodes and time
-		
-	}
-	
-	private void level3() {
-		// TODO Don't have stickmen be a choice for level 3?(Too small)
-		
+		if (level == 1) {
+			//Instructions explaining the minigame
+			Text instructions = new Text("This minigame is Find The Hidden Image. At the top is the image you are looking for.\n"
+					+ "In the blank area below, move your mouse around to reveal hidden images.\n"
+					+ "Click on the goal image before time runs out to win!\n\n"
+					+ "Tips:\n"
+					+ "1. Frantically moving the mouse around may not reveal the \"skinnier\" pictures (like stick figures).\n"
+					+ "2. Be precise when clicking on the image. Don't click on whitespace, click on colors.\n"
+					+ "3. Sometimes images like to hide under Legolas' bow (you'll understand when you see it),\n"
+					+ "     check carefully around that area.");
+			instructions.setFont(Font.font(15));
+
+			
+			//Set instructions and btStart into top and center
+			setTop(instructions);
+			BorderPane.setAlignment(instructions, Pos.CENTER);
+			setCenter(btStart);
+			BorderPane.setAlignment(btStart, Pos.CENTER);
+			
+			//Starts the minigame when btStart is clicked
+			btStart.setOnAction(e -> {
+				getChildren().clear();
+				runGame(8, 200, 8);
+			});
+		} else if (level == 2) {
+			//Instructions explaining the minigame
+			Text instructions = new Text("Find The Hidden Image: Level 2");
+			instructions.setFont(Font.font(30));
+
+			
+			//Set instructions and btStart into top and center
+			setTop(instructions);
+			BorderPane.setAlignment(instructions, Pos.CENTER);
+			setCenter(btStart);
+			BorderPane.setAlignment(btStart, Pos.CENTER);
+			
+			//Starts the minigame when btStart is clicked
+			btStart.setOnAction(e -> {
+				getChildren().clear();
+				runGame(12, 150, 8);
+			});
+		} else {
+			//Instructions explaining the minigame
+			Text instructions = new Text("Find The Hidden Image: Level 3");
+			instructions.setFont(Font.font(30));
+
+			
+			//Set instructions and btStart into top and center
+			setTop(instructions);
+			BorderPane.setAlignment(instructions, Pos.CENTER);
+			setCenter(btStart);
+			BorderPane.setAlignment(btStart, Pos.CENTER);
+			
+			//Starts the minigame when btStart is clicked
+			btStart.setOnAction(e -> {
+				getChildren().clear();
+				runGame(16, 100, 8);
+			});
+		}
 	}
 	
 	private void runGame(int numOfImages, int imgSize, int timerLength) {
@@ -175,7 +191,7 @@ public class SearchMinigame extends BorderPane {
 								winPane.setPrefHeight(TOP_SIZE);
 								Text winText = new Text("Congratulations, you found it!");
 								winText.setFont(Font.font(30));
-								winPane.getChildren().addAll(winText, Capstone.btNextMinigame); //TODO See if btNMG margins and such get messed up if this game is played first vs after
+								winPane.getChildren().addAll(winText, Capstone.btNextMinigame);
 								setTop(winPane);
 								winPane.setAlignment(Pos.CENTER);
 							});
