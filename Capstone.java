@@ -1,8 +1,7 @@
-package application;
 
 /*
  * Author: Braylen Strain
- * Date: TODO Make sure you can beat the game before being done
+ * Date: 05/04/2022
  * 
  * This program is a game of minigames. The user has to beat each minigame to move on to the next level. After beating 3 levels, they win.
  */
