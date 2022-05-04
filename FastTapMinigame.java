@@ -19,47 +19,62 @@ public class FastTapMinigame extends BorderPane {
 	private static boolean notHeldDown = true; //Used to make sure player isn't holding down a key to count taps
 	
 	public FastTapMinigame(int level) {
-		if (level == 1) {
-			level1();
-		} else if (level == 2) {
-			level2();
-		} else {
-			level3();
-		}
-	}
-	
-	//Starts level1 version of Fast Tap Minigame
-	private void level1() {
-		//Instructions explaining the minigame
-		Text instructions = new Text("This minigame is Fast Tap.\n"
-				+ "You must tap the displayed key enough times before the timer reaches 0.\n"
-				+ "Pay attention! The key could switch midgame.\n"
-				+ "The counter below the key shows how many times you've tapped the key\n"
-				+ "vs how many times you must tap total.");
-		instructions.setFont(Font.font(15));
-		
 		//Button to start the game
 		Button btStart = new Button("Let's Go!");
 		
-		//Put instructions and btStart into this
-		setTop(instructions);
-		BorderPane.setAlignment(instructions, Pos.CENTER);
-		setCenter(btStart);
-		BorderPane.setAlignment(btStart, Pos.CENTER);
-		
-		//Starts the minigame when btStart is clicked
-		btStart.setOnAction(e -> {
-			getChildren().clear();
-			playGame(10, 30);
-		});
-	}
-	
-	private void level2() {
-		//TODO Just like level 1 with different parameters when playGame is called
-	}
-	
-	private void level3() {
-		//TODO
+		if (level == 1) {
+			//Instructions explaining the minigame
+			Text instructions = new Text("This minigame is Fast Tap.\n"
+					+ "You must tap the displayed key enough times before the timer reaches 0.\n"
+					+ "Pay attention! The key could switch midgame.\n"
+					+ "The counter below the key shows how many times you've tapped the key\n"
+					+ "vs how many times you must tap total.");
+			instructions.setFont(Font.font(15));
+
+			//Put instructions and btStart into this
+			setTop(instructions);
+			BorderPane.setAlignment(instructions, Pos.CENTER);
+			setCenter(btStart);
+			BorderPane.setAlignment(btStart, Pos.CENTER);
+			
+			//Starts the minigame when btStart is clicked
+			btStart.setOnAction(e -> {
+				getChildren().clear();
+				playGame(10, 30);
+			});
+		} else if (level == 2) {
+			//Instructions explaining the minigame
+			Text instructions = new Text("Fast Tap: Level 2\n15 seconds, 90 taps");
+			instructions.setFont(Font.font(30));
+
+			//Put instructions and btStart into this
+			setTop(instructions);
+			BorderPane.setAlignment(instructions, Pos.CENTER);
+			setCenter(btStart);
+			BorderPane.setAlignment(btStart, Pos.CENTER);
+			
+			//Starts the minigame when btStart is clicked
+			btStart.setOnAction(e -> {
+				getChildren().clear();
+				playGame(15, 90);
+			});
+		} else {
+			//Instructions explaining the minigame
+			Text instructions = new Text("Fast Tap: Level 3\n20 seconds, 130 taps");
+			instructions.setFont(Font.font(30));
+
+			//Put instructions and btStart into this
+			setTop(instructions);
+			BorderPane.setAlignment(instructions, Pos.CENTER);
+			setCenter(btStart);
+			BorderPane.setAlignment(btStart, Pos.CENTER);
+			
+			//Starts the minigame when btStart is clicked
+			btStart.setOnAction(e -> {
+				getChildren().clear();
+				playGame(20, 130);
+			});
+		}
 	}
 	
 	//Play the minigame using the given time and number of taps
