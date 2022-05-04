@@ -1,11 +1,8 @@
 package application;
 
-//TODO display the minigames (if it's level 1, display instructions first)
-//TODO how to deal with losses in both minigames and overall. Need a restart option.
-//TODO final end game win "I never doubted you for a second"
 /*
  * Author: Braylen Strain
- * Date: TODO
+ * Date: TODO Make sure you can beat the game before being done
  * 
  * This program is a game of minigames. The user has to beat each minigame to move on to the next level. After beating 3 levels, they win.
  */
@@ -23,6 +20,7 @@ public class Capstone extends Application{
 	private static int lives = 3; //How many lives the user has remaining
 	private static int preMinigameLives = 3; //How many lives the user had before the current minigame started
 	public static Button btNextMinigame = new Button("Next"); //Used to move on after a minigame is over
+	public static Button btReset = new Button("Play again?"); //Used to reset the game back to level 1 with 3 lives
 	public static Scene scene; // Set as a public static data field so that I can register key events in the minigames
 
 	public static void main(String[] args) {
@@ -39,9 +37,12 @@ public class Capstone extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		//Make button bigger so it's more noticeable
+		//Make buttons bigger so they are more noticeable
 		btNextMinigame.setPrefSize(200, 100);
 		btNextMinigame.setFont(Font.font(40));
+		
+		btReset.setPrefSize(200, 100);
+		btReset.setFont(Font.font(20));
 		
 		pane = new StackPane(); //The pane that will show the introduction
 		Text introductionText = new Text("Welcome to my game."); //Introduction text explaining the game
@@ -69,22 +70,27 @@ public class Capstone extends Application{
 				runFifthMinigame(primaryStage);
 			} else if (pane instanceof MathMinigame) {
 				endOfLevel(primaryStage);
-				if (level < 4) runFirstMinigame(primaryStage);
-				else endGame();
 			}
+		});
+		
+		//Offer a restart button when the game is over. If clicked, reset lives, preminigame lives, and level. Then runFirstMinigame().
+		btReset.setOnAction(e -> {
+			lives = 3;
+			preMinigameLives = 3;
+			level = 1;
+			runFirstMinigame(primaryStage);
 		});
 
 		//Create a thread to introduce the game, changing the contents of introductionText periodically, then calling runFirstMinigame()
 		new Thread(() -> {
 			try {
-				//TODO fix sleep numbers 3000, 6000
-				Thread.sleep(000);
+				Thread.sleep(3000);
 				introductionText.setText("Do you think you can beat it?");
-				Thread.sleep(000);
+				Thread.sleep(3000);
 				introductionText.setText("We will see.");
-				Thread.sleep(000);
+				Thread.sleep(3000);
 				introductionText.setText("You have 3 lives to beat 3 levels.\nThere are 5 minigames per level.\nLose a minigame, lose a life.\nLose all your lives, game over.");
-				Thread.sleep(000);
+				Thread.sleep(6000);
 				Platform.runLater(() -> pane.getChildren().clear());
 				Platform.runLater(() -> runFirstMinigame(primaryStage));
 			} catch (InterruptedException e) {
@@ -93,10 +99,9 @@ public class Capstone extends Application{
 		}).start();
 	}
 	
-	//TODO Make sure after 5th minigame their is an endgame check
 	//Run the first minigame after the intro is done
 	private void runFirstMinigame(Stage primaryStage) {
-		pane = new MathMinigame(level); //TODO change back to first minigame
+		pane = new CirclesMinigame(level);
 		scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
 		primaryStage.setScene(scene);
 	}
@@ -112,11 +117,11 @@ public class Capstone extends Application{
 				} else {
 					Platform.runLater(() -> wonAMinigame(primaryStage));
 				}
-				Thread.sleep(2000);
+				Thread.sleep(2500);
 				
 				//If user lost all lives, call endGame()
 				if (lives == 0) {
-					endGame();
+					Platform.runLater(() -> endGame());
 				} else {
 					//Put next minigame into stage
 					Platform.runLater(() -> {
@@ -142,11 +147,11 @@ public class Capstone extends Application{
 				} else {
 					Platform.runLater(() -> wonAMinigame(primaryStage));
 				}
-				Thread.sleep(2000);
+				Thread.sleep(2500);
 				
 				//If user lost all lives, call endGame()
 				if (lives == 0) {
-					endGame();
+					Platform.runLater(() -> endGame());
 				} else {
 					//Put next minigame into stage
 					Platform.runLater(() -> {
@@ -171,11 +176,11 @@ public class Capstone extends Application{
 				} else {
 					Platform.runLater(() -> wonAMinigame(primaryStage));
 				}
-				Thread.sleep(2000);
+				Thread.sleep(2500);
 				
 				//If user lost all lives, call endGame()
 				if (lives == 0) {
-					endGame();
+					Platform.runLater(() -> endGame());
 				} else {
 					//Put next minigame into stage
 					Platform.runLater(() -> {
@@ -200,11 +205,11 @@ public class Capstone extends Application{
 				} else {
 					Platform.runLater(() -> wonAMinigame(primaryStage));
 				}
-				Thread.sleep(2000);
+				Thread.sleep(2500);
 				
 				//If user lost all lives, call endGame()
 				if (lives == 0) {
-					endGame();
+					Platform.runLater(() -> endGame());
 				} else {
 					//Put next minigame into stage
 					Platform.runLater(() -> {
@@ -229,18 +234,30 @@ public class Capstone extends Application{
 				} else {
 					Platform.runLater(() -> wonAMinigame(primaryStage));
 				}
-				Thread.sleep(2000);
+				Thread.sleep(2500);
 				
 				//If user lost all lives, call endGame()
 				if (lives == 0) {
-					endGame();
+					Platform.runLater(() -> endGame());
 				} else {
-					//Increase level
-					level++;
-					
 					//Show end of level screen
 					Platform.runLater(() -> {
-						//TODO
+						Text levelUpText = new Text("You have beaten level " + level + "! Keep up the great work!");
+						levelUpText.setFont(Font.font(30));
+						pane = new StackPane(levelUpText);
+						scene = new Scene(pane, WINDOW_SIZE, WINDOW_SIZE);
+						primaryStage.setScene(scene);
+						
+						//Increase level
+						level++;
+					});
+					
+					//Pause so player can read levelUpText
+					Thread.sleep(3000);
+					Platform.runLater(() -> {
+						//Start new level or end game
+						if (level < 4) runFirstMinigame(primaryStage);
+						else endGame();
 					});
 				}
 			} catch (InterruptedException e) {
@@ -295,10 +312,35 @@ public class Capstone extends Application{
 	}
 	
 	private void endGame() {
-		//If level < 4, Display lost scene
-		//TODO Offer a restart button. If clicked, reset lives, preminigame lives, and level. Then runFirstMinigame().
-		//Else, display win scene
-		//TODO Offer a play again button.
+
+		//If level < 4, Display lost scene. Else display win scene.
+		if (level < 4) {
+			pane.getChildren().clear();
+			Text lostGameText = new Text("You have lost all your lives.\nThe gods weep for your failure :(\n You may try again if you like.");
+			lostGameText.setFont(Font.font(30));
+			pane.getChildren().add(lostGameText);
+		} else {
+			//Display win scene
+			pane.getChildren().clear();
+			Text beatGameText = new Text("Actually, scratch that.\nYou've beaten the whole game!\nYou're unstoppable.\n...I love you.");
+			beatGameText.setFont(Font.font(30));
+			pane.getChildren().add(beatGameText);
+		}
+		
+		//Pause so player can read before switching to btReset
+		new Thread(() -> {
+			try {
+				Thread.sleep(5000);
+
+			} catch (InterruptedException ex) {
+				ex.printStackTrace();
+			}
+			//Display btReset
+			Platform.runLater(() -> {
+				pane.getChildren().clear();
+				pane.getChildren().add(btReset);
+			});
+		}).start();
 	}
 
 }
