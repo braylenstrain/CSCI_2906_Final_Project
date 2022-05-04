@@ -1,4 +1,3 @@
-package application;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,23 +17,23 @@ import javafx.scene.shape.Line;
 public class SearchMinigame extends BorderPane {
 	private static final int WINDOW_SIZE = 700; //Size of entire window
 	private static final int TOP_SIZE = 150; //Size of top border
-	private List<ImageView> imageList = Arrays.asList( //TODO images/
-			new ImageView(new Image("2022_04_27_0m8_Kleki-removebg-preview.png")),
-			new ImageView(new Image("2022_04_27_0mb_Kleki-removebg-preview.png")),
-			new ImageView(new Image("2022_04_27_0md_Kleki-removebg-preview.png")),
-			new ImageView(new Image("2022_04_27_0mi_Kleki-removebg-preview.png")),
-			new ImageView(new Image("2022_04_27_0mk_Kleki-removebg-preview.png")),
-			new ImageView(new Image("2022_04_27_0ml_Kleki-removebg-preview.png")),
-			new ImageView(new Image("2022_04_27_0mn_Kleki-removebg-preview.png")),
-			new ImageView(new Image("2022_04_27_0mo_Kleki-removebg-preview.png")),
-			new ImageView(new Image("2022_04_27_0mp_Kleki-removebg-preview.png")),
-			new ImageView(new Image("2022_04_27_0ms_Kleki-removebg-preview.png")),
-			new ImageView(new Image("23710-8-legolas-transparent-image.png")),
-			new ImageView(new Image("388-3880363_captain-jack-sparrow-png-removebg-preview.png")),
-			new ImageView(new Image("8e6b064c27cdda51e81589dc11ac68bf-removebg-preview.png")),
-			new ImageView(new Image("Avatar_Aang.png")),
-			new ImageView(new Image("Master-Chief-Transparent-Background.png")),
-			new ImageView(new Image("tumblr_orvfd8FdK51rxkqbso1_500.png"))
+	private List<ImageView> imageList = Arrays.asList(
+			new ImageView(new Image("images/2022_04_27_0m8_Kleki-removebg-preview.png")),
+			new ImageView(new Image("images/2022_04_27_0mb_Kleki-removebg-preview.png")),
+			new ImageView(new Image("images/2022_04_27_0md_Kleki-removebg-preview.png")),
+			new ImageView(new Image("images/2022_04_27_0mi_Kleki-removebg-preview.png")),
+			new ImageView(new Image("images/2022_04_27_0mk_Kleki-removebg-preview.png")),
+			new ImageView(new Image("images/2022_04_27_0ml_Kleki-removebg-preview.png")),
+			new ImageView(new Image("images/2022_04_27_0mn_Kleki-removebg-preview.png")),
+			new ImageView(new Image("images/2022_04_27_0mo_Kleki-removebg-preview.png")),
+			new ImageView(new Image("images/2022_04_27_0mp_Kleki-removebg-preview.png")),
+			new ImageView(new Image("images/2022_04_27_0ms_Kleki-removebg-preview.png")),
+			new ImageView(new Image("images/23710-8-legolas-transparent-image.png")),
+			new ImageView(new Image("images/388-3880363_captain-jack-sparrow-png-removebg-preview.png")),
+			new ImageView(new Image("images/8e6b064c27cdda51e81589dc11ac68bf-removebg-preview.png")),
+			new ImageView(new Image("images/Avatar_Aang.png")),
+			new ImageView(new Image("images/Master-Chief-Transparent-Background.png")),
+			new ImageView(new Image("images/tumblr_orvfd8FdK51rxkqbso1_500.png"))
 			);
 	private Pane pane = new Pane();
 	
