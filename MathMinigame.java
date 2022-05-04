@@ -1,4 +1,3 @@
-package application;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -72,7 +71,7 @@ public class MathMinigame extends BorderPane {
 			});
 		} else {
 			//Intro
-			Text text = new Text("Simple Arithmetic: Level 3\n15 problems, 10 seconds");
+			Text text = new Text("Simple Arithmetic: Level 3\n13 problems, 10 seconds");
 			text.setFont(Font.font(30));
 			setTop(text);
 			BorderPane.setAlignment(text, Pos.CENTER);
@@ -82,7 +81,7 @@ public class MathMinigame extends BorderPane {
 			//Start the minigame when btStart is clicked
 			btStart.setOnAction(e -> {
 				getChildren().clear();
-				playGame(15, 10);
+				playGame(13, 10);
 			});
 		}
 	}
