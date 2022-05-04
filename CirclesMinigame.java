@@ -1,6 +1,7 @@
 package application;
 
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.util.Duration;
 import javafx.animation.*;
@@ -14,59 +15,81 @@ public class CirclesMinigame extends BorderPane {
 	private Pane pane = new Pane();
 	private static final int PANE_WIDTH = 700; //Width of playable game area after introduction
 	private static final int PANE_HEIGHT = 700; //Height of playable game area after introduction
-	private static final double CIRCLE_RADIUS = 50.0; //Predetermined radius of the circles when spawned
+	private static final int CIRCLE_RADIUS = 50; //Predetermined radius of the circles when spawned
 	
 	public CirclesMinigame(int level) {
+		Button btStart = new Button("Let's Go!"); //Button to start the game
+
 		if (level == 1) {
-			level1();
+			//Instructions explaining the minigame
+			Text instructions = new Text("The first minigame is Click The Circles. When the game starts, you will begin to see circles appear.\n"
+					+ "You must click the circles with your mouse before they shrink away entirely.\n"
+					+ "When you are ready, click the button below.");
+			instructions.setFont(Font.font(15));
+
+			//Set instructions and btStart into top and center
+			setTop(instructions);
+			BorderPane.setAlignment(instructions, Pos.CENTER);
+			setCenter(btStart);
+			BorderPane.setAlignment(btStart, Pos.CENTER);
+			
+			//Starts the minigame when btStart is clicked
+			btStart.setOnAction(e -> {
+				getChildren().clear();
+				playGame(10, 1000);
+			});
 		} else if (level == 2) {
-			level2();
+			//Title of minigame
+			Text instructions = new Text("Click The Circles: Level 2");
+			instructions.setFont(Font.font(30));
+
+			//Set instructions and btStart into top and center
+			setTop(instructions);
+			BorderPane.setAlignment(instructions, Pos.CENTER);
+			setCenter(btStart);
+			BorderPane.setAlignment(btStart, Pos.CENTER);
+			
+			//Starts the minigame when btStart is clicked
+			btStart.setOnAction(e -> {
+				getChildren().clear();
+				playGame(15, 500);
+			});
 		} else {
-			level3();
+			//Title of minigame
+			Text instructions = new Text("Click The Circles: Level 3");
+			instructions.setFont(Font.font(30));
+
+			//Set instructions and btStart into top and center
+			setTop(instructions);
+			BorderPane.setAlignment(instructions, Pos.CENTER);
+			setCenter(btStart);
+			BorderPane.setAlignment(btStart, Pos.CENTER);
+			
+			//Starts the minigame when btStart is clicked
+			btStart.setOnAction(e -> {
+				getChildren().clear();
+				playGame(20, 400);
+			});
 		}
 	}
-	
-	//Starts level 1 version of Click The Circles minigame
-	private void level1() {
-		//Instructions explaining the minigame
-		Text instructions = new Text("The first minigame is Click The Circles. When the game starts, you will begin to see circles appear.\n"
-				+ "You must click the circles with your mouse before they shrink away entirely.\n"
-				+ "When you are ready, click the button below.");
-		instructions.setFont(Font.font(15));
 
-		//Button to start the game
-		Button btStart = new Button("Let's Go!");
-		
-		//Set instructions and btStart into top and center
-		setTop(instructions);
-		BorderPane.setAlignment(instructions, Pos.CENTER);
-		setCenter(btStart);
-		BorderPane.setAlignment(btStart, Pos.CENTER);
-		
-		//Starts the minigame when btStart is clicked
-		btStart.setOnAction(e -> {
-			getChildren().clear();
-			setCenter(pane);
-			playLevel1();
-		});
-	}
-	
 	//Continues the level 1 version of this game when btStart is clicked
-	private void playLevel1() {
+	private void playGame(int numOfCircles, int millisBetweenCircles) {
+		setCenter(pane);
 		new Thread(() -> {
 			try {
 				int lives = Capstone.getLives();
-				for (int i = 0; i < 10; i++) {
+				for (int i = 0; i < numOfCircles; i++) {
 					//Check to see if they've lost the minigame
 					if (Capstone.getLives() != lives) break;
 					
 					//Else, continue the game
-					makeACircle();
-					Thread.sleep(1000);
+					makeACircle(i);
+					Thread.sleep(millisBetweenCircles);
 				}
 				
 				//Give last spawned circle time to shrink entirely, if needed (Time to shrink a circle - sleep time between each circle + a little extra)
-				Thread.sleep(1550);
+				Thread.sleep(50 * CIRCLE_RADIUS - millisBetweenCircles + 50);
 				
 				//Sometimes another circle will have spawned before lostALife() is called. In this case, set lives to correct amount.
 				if (Capstone.getLives() < lives - 1) Capstone.setLives(lives - 1);
@@ -89,32 +112,30 @@ public class CirclesMinigame extends BorderPane {
 		}).start();
 	}
 	
-	private void level2() {
-		//TODO
-	}
-	
-	private void level3() {
-		//TODO
-	}
-	
 	//Creates a circle, sets setOnMouseClick action for circle, puts into pane, calls shrinkCircle in a TimeLine to shrink it
-	private void makeACircle() {
+	private void makeACircle(int viewOrder) {
 		//Makes sure circles are spawned entirely in the pane
 		double randomX = Math.random() * PANE_WIDTH;
 		randomX = randomX > PANE_WIDTH - CIRCLE_RADIUS ? randomX -= CIRCLE_RADIUS : randomX < CIRCLE_RADIUS ? randomX += CIRCLE_RADIUS : randomX;
 		double randomY = Math.random() * PANE_HEIGHT;
 		randomY = randomY > PANE_HEIGHT - CIRCLE_RADIUS ? randomY -= CIRCLE_RADIUS : randomY < CIRCLE_RADIUS ? randomY += CIRCLE_RADIUS : randomY;
 		
-		//Create circle, add to pane, add clicking functionality
+		//Create circle, set stroke to white and set viewOrder in case of overlap (newer circles spawn behind)
 		Circle circle = new Circle(randomX, randomY, CIRCLE_RADIUS);
+		circle.setStroke(Color.WHITE);
+		circle.setViewOrder(viewOrder);
+		
+		//Add clicking functionality to circle
 		circle.setOnMouseClicked(e -> {
 			circle.setRadius(0);
 		});
+		
+		//Add circle to pane
 		Platform.runLater(() -> pane.getChildren().add(circle));
 		
 		//Shrink animation for the circles
 		Timeline circleShrink = new Timeline(new KeyFrame(Duration.millis(50), e -> shrinkCircle(circle)));
-		circleShrink.setCycleCount(50);
+		circleShrink.setCycleCount(CIRCLE_RADIUS);
 		circleShrink.play();
 		circleShrink.setOnFinished(e -> {
 			if (circle.getRadius() == 0.0) {
