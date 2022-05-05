@@ -1,4 +1,4 @@
-# Industry Projects 1175 Final Project *Checkers*
+# Capstone Project 2906 *Can You Beat My Game?*
 
 ## Synopsis
 This project is called "Can You Beat My Game?". It is a game with 3 levels and 5 minigames in each level. If you lose a minigame, you lose a life. You have 3 lives to beat all the levels to win.
